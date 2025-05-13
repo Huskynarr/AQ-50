@@ -5,9 +5,9 @@ import Results from './components/Results';
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-100">
-        <div className="container mx-auto px-4 py-8">
+    <Router basename="/AQ-50">
+      <div className="min-h-screen bg-gray-100 p-8">
+        <div className="max-w-2xl mx-auto">
           <Routes>
             <Route path="/" element={<Introduction />} />
             <Route path="/test" element={<Test />} />
