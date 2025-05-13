@@ -12,11 +12,30 @@ const Results: React.FC = () => {
 
   const getInterpretation = (score: number) => {
     if (score >= 32) {
-      return "Ein Wert von 32 oder höher deutet auf ein erhöhtes Maß an autistischen Zügen hin.";
+      return "Ein Wert von 32 oder höher deutet auf eine hohe Wahrscheinlichkeit (80%) einer Autismus-Spektrum-Störung (ASS) hin.";
     } else if (score >= 26) {
-      return "Ein Wert zwischen 26 und 31 deutet auf ein mittleres Maß an autistischen Zügen hin.";
+      return "Ein Wert zwischen 26 und 31 deutet auf ein erhöhtes Maß autistischer Züge hin (ca. 62,5% Wahrscheinlichkeit).";
+    } else if (score >= 20) {
+      return "Ein Wert zwischen 20 und 25 deutet auf ein mittleres Maß autistischer Züge hin (ca. 50% Wahrscheinlichkeit).";
     } else {
-      return "Ein Wert unter 26 deutet auf ein niedriges Maß an autistischen Zügen hin.";
+      return "Ein Wert unter 20 deutet auf ein niedriges Maß autistischer Züge hin. Der statistische Mittelwert für Personen ohne ASS liegt bei 16,4 (41% Wahrscheinlichkeit).";
+    }
+  };
+
+  const getPercentage = (score: number) => {
+    // Berechnung der Wahrscheinlichkeit basierend auf den Angaben aus dem AQ-50 Dokument
+    if (score >= 40) {
+      return Math.min(100 + (score - 40) * 2.5, 125); // Kann über 100% gehen nach offizieller Tabelle
+    } else if (score >= 32) {
+      return 80 + (score - 32) * (20 / 8); // Linear zwischen 80% und 100%
+    } else if (score >= 25) {
+      return 62.5 + (score - 25) * (17.5 / 7); // Linear zwischen 62,5% und 80%
+    } else if (score >= 20) {
+      return 50 + (score - 20) * (12.5 / 5); // Linear zwischen 50% und 62,5%
+    } else if (score >= 16.4) {
+      return 41 + (score - 16.4) * (9 / 3.6); // Linear zwischen 41% und 50%
+    } else {
+      return score * (41 / 16.4); // Linear zwischen 0% und 41%
     }
   };
 
@@ -116,11 +135,38 @@ const Results: React.FC = () => {
         <div className="text-center">
           <p className="text-2xl font-semibold mb-2">Ihr AQ-50 Score:</p>
           <p className="text-4xl font-bold text-blue-600">{score}</p>
+          <p className="text-lg mt-2">
+            (entspricht ca. {getPercentage(score).toFixed(1)}% Wahrscheinlichkeit einer ASS)
+          </p>
+        </div>
+
+        <div className="relative w-full h-6 bg-gray-200 rounded-full">
+          <div 
+            className="absolute h-6 rounded-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500"
+            style={{ width: `${Math.min(getPercentage(score), 100)}%` }}
+          ></div>
+          <div className="absolute w-full h-full px-2 flex justify-between items-center text-xs">
+            <span>0%</span>
+            <span>50%</span>
+            <span>100%</span>
+          </div>
         </div>
 
         <div className="bg-gray-50 p-6 rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Interpretation</h2>
           <p className="text-gray-700">{getInterpretation(score)}</p>
+          
+          <div className="mt-4">
+            <h3 className="font-semibold mb-2">Referenzwerte nach AQ-50:</h3>
+            <ul className="list-disc list-inside space-y-1 text-sm">
+              <li>16,4 Punkte: Statistischer Mittelwert bei Personen ohne ASS (41%)</li>
+              <li>20 Punkte: 50% Wahrscheinlichkeit</li>
+              <li>25 Punkte: 62,5% Wahrscheinlichkeit</li>
+              <li>32 Punkte: 80% Wahrscheinlichkeit (Schwellwert für ASS)</li>
+              <li>40 Punkte: 100% Wahrscheinlichkeit</li>
+              <li>50 Punkte: 125% Wahrscheinlichkeit (maximaler Wert)</li>
+            </ul>
+          </div>
         </div>
 
         {renderHelpResources()}
