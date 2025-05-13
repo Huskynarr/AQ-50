@@ -1,7 +1,7 @@
 {
   "name": "aq50-test",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "homepage": "https://huskynarr.github.io/AQ-50",
   "scripts": {
