@@ -1,12 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { generatePDF } from '../utils/pdfGenerator';
-
-interface Answer {
-  questionId: number;
-  answer: string;
-  question: string;
-}
+import { calculateDetailedScore, subscales, normValues } from '../utils/scoring';
 
 interface LocationState {
   score: number;
@@ -17,6 +12,10 @@ const Results: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { score, answers } = location.state as LocationState;
+  const [activeTab, setActiveTab] = useState<'overview' | 'subscales' | 'comparison'>('overview');
+
+  // Berechne detaillierte Auswertung
+  const detailedScore = answers ? calculateDetailedScore(answers) : null;
 
   // Die vollständigen 50 Fragen des AQ-50 Tests
   const questions = [
@@ -78,225 +77,195 @@ const Results: React.FC = () => {
       case 1: return "Ich stimme eher nicht zu";
       case 2: return "Ich stimme eher zu";
       case 3: return "Ich stimme zu";
-      default: return "Keine Antwort";
+      default: return "";
     }
   };
 
-  const handleDownloadPDF = () => {
-    if (!answers) {
-      alert('Keine Antwortdaten verfügbar für PDF-Export.');
-      return;
-    }
+  const handleDownloadPDF = async () => {
+    if (!answers) return;
+    
+    const answersArray = Object.entries(answers).map(([questionId, answerValue]) => ({
+      questionId: parseInt(questionId),
+      answer: getAnswerLabel(answerValue),
+      question: questions[parseInt(questionId) - 1]
+    }));
 
-    const formattedAnswers: Answer[] = Object.entries(answers).map(([questionIdStr, answerValue]) => {
-      const questionId = parseInt(questionIdStr);
-      return {
-        questionId,
-        answer: getAnswerLabel(answerValue),
-        question: questions[questionId - 1] || `Frage ${questionId}`
-      };
-    });
-
-    const pdfData = {
-      score,
-      answers: formattedAnswers,
-      date: new Date().toLocaleDateString('de-DE')
-    };
-
-    generatePDF(pdfData);
+    await generatePDF(score, answersArray, detailedScore);
   };
 
-  const getInterpretation = (score: number) => {
-    if (score >= 32) {
-      return "Ein Wert von 32 oder höher deutet auf eine hohe Wahrscheinlichkeit (80%) einer Autismus-Spektrum-Störung (ASS) hin.";
-    } else if (score >= 26) {
-      return "Ein Wert zwischen 26 und 31 deutet auf ein erhöhtes Maß autistischer Züge hin (ca. 62,5% Wahrscheinlichkeit).";
-    } else if (score >= 20) {
-      return "Ein Wert zwischen 20 und 25 deutet auf ein mittleres Maß autistischer Züge hin (ca. 50% Wahrscheinlichkeit).";
-    } else {
-      return "Ein Wert unter 20 deutet auf ein niedriges Maß autistischer Züge hin. Der statistische Mittelwert für Personen ohne ASS liegt bei 16,4 (41% Wahrscheinlichkeit).";
-    }
+  const getScoreColor = (score: number) => {
+    if (score >= 32) return 'text-red-600 dark:text-red-400';
+    if (score >= 26) return 'text-orange-600 dark:text-orange-400';
+    if (score >= 22) return 'text-yellow-600 dark:text-yellow-400';
+    return 'text-green-600 dark:text-green-400';
   };
 
-  const getPercentage = (score: number) => {
-    // Berechnung der Wahrscheinlichkeit basierend auf den Angaben aus dem AQ-50 Dokument
-    if (score >= 40) {
-      return Math.min(100 + (score - 40) * 2.5, 125); // Kann über 100% gehen nach offizieller Tabelle
-    } else if (score >= 32) {
-      return 80 + (score - 32) * (20 / 8); // Linear zwischen 80% und 100%
-    } else if (score >= 25) {
-      return 62.5 + (score - 25) * (17.5 / 7); // Linear zwischen 62,5% und 80%
-    } else if (score >= 20) {
-      return 50 + (score - 20) * (12.5 / 5); // Linear zwischen 50% und 62,5%
-    } else if (score >= 16.4) {
-      return 41 + (score - 16.4) * (9 / 3.6); // Linear zwischen 41% und 50%
-    } else {
-      return score * (41 / 16.4); // Linear zwischen 0% und 41%
-    }
-  };
-
-  const renderHelpResources = () => {
-    if (score < 20) return null;
-
-    return (
-      <div className="space-y-6">
-        <div className="bg-green-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">Hilfreiche Ressourcen</h2>
-          
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold mb-2">Selbsthilfegruppen</h3>
-              <ul className="list-disc list-inside space-y-2">
-                <li>
-                  <a href="https://www.autismus.de" target="_blank" rel="noopener noreferrer" 
-                     className="text-blue-600 hover:underline">
-                    Bundesverband Autismus Deutschland e.V.
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.asperger-autismus.ch" target="_blank" rel="noopener noreferrer"
-                     className="text-blue-600 hover:underline">
-                    Autismus Deutsche Schweiz
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-2">Online-Ressourcen</h3>
-              <ul className="list-disc list-inside space-y-2">
-                <li>
-                  <a href="https://www.autismus-kultur.de" target="_blank" rel="noopener noreferrer"
-                     className="text-blue-600 hover:underline">
-                    Autismus-Kultur - Informationen und Hilfestellungen
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.asperger-welt.de" target="_blank" rel="noopener noreferrer"
-                     className="text-blue-600 hover:underline">
-                    Asperger-Welt - Community und Austausch
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-2">Beratungsstellen</h3>
-              <ul className="list-disc list-inside space-y-2">
-                <li>
-                  <a href="https://www.autismus-berlin.de" target="_blank" rel="noopener noreferrer"
-                     className="text-blue-600 hover:underline">
-                    Autismus-Beratung Berlin
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.autismus-hamburg.de" target="_blank" rel="noopener noreferrer"
-                     className="text-blue-600 hover:underline">
-                    Autismus-Zentrum Hamburg
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-yellow-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">Wichtige Hinweise</h2>
-          <div className="space-y-4">
-            <p className="text-gray-700">
-              Bitte beachten Sie, dass die Wartezeiten für eine professionelle Diagnose und Therapie 
-              oft sehr lang sind. Während der Wartezeit können Selbsthilfegruppen und Online-Ressourcen 
-              eine wichtige Unterstützung bieten.
-            </p>
-            <p className="text-gray-700">
-              Für eine offizielle Diagnose und professionelle Unterstützung empfehlen wir:
-            </p>
-            <ul className="list-disc list-inside space-y-2">
-              <li>Kontaktaufnahme mit dem Hausarzt für eine Überweisung</li>
-              <li>Suche nach spezialisierten Autismus-Ambulanzen</li>
-              <li>Kontakt mit örtlichen Autismus-Verbänden</li>
-              <li>Anfrage bei der Krankenkasse nach spezialisierten Therapeuten</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    );
+  const getScoreBackground = (score: number) => {
+    if (score >= 32) return 'bg-red-100 dark:bg-red-900';
+    if (score >= 26) return 'bg-orange-100 dark:bg-orange-900';
+    if (score >= 22) return 'bg-yellow-100 dark:bg-yellow-900';
+    return 'bg-green-100 dark:bg-green-900';
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold mb-6 text-center">Ihr Testergebnis</h1>
+    <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+        Ihre AQ-50 Testergebnisse
+      </h1>
 
-      <div className="space-y-6">
-        <div className="text-center">
-          <p className="text-2xl font-semibold mb-2">Ihr AQ-50 Score:</p>
-          <p className="text-4xl font-bold text-blue-600">{score}</p>
-          <p className="text-lg mt-2">
-            (entspricht ca. {getPercentage(score).toFixed(1)}% Wahrscheinlichkeit einer ASS)
-          </p>
+      {/* Score Overview */}
+      <div className={`text-center p-6 rounded-lg mb-8 ${getScoreBackground(score)}`}>
+        <div className={`text-6xl font-bold mb-4 ${getScoreColor(score)}`}>
+          {score}
         </div>
+        <div className="text-lg text-gray-700 dark:text-gray-300 mb-2">
+          von 50 möglichen Punkten
+        </div>
+        {detailedScore && (
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            {detailedScore.interpretation}
+          </div>
+        )}
+      </div>
 
-        <div className="relative w-full h-6 bg-gray-200 rounded-full">
-          <div 
-            className="absolute h-6 rounded-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500"
-            style={{ width: `${Math.min(getPercentage(score), 100)}%` }}
-          ></div>
-          <div className="absolute w-full h-full px-2 flex justify-between items-center text-xs">
-            <span>0%</span>
-            <span>50%</span>
-            <span>100%</span>
+      {/* Navigation Tabs */}
+      <div className="flex border-b border-gray-200 dark:border-gray-600 mb-6">
+        <button
+          onClick={() => setActiveTab('overview')}
+          className={`px-4 py-2 font-medium text-sm ${
+            activeTab === 'overview'
+              ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+          }`}
+        >
+          Übersicht
+        </button>
+        <button
+          onClick={() => setActiveTab('subscales')}
+          className={`px-4 py-2 font-medium text-sm ${
+            activeTab === 'subscales'
+              ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+          }`}
+        >
+          Subskalen
+        </button>
+        <button
+          onClick={() => setActiveTab('comparison')}
+          className={`px-4 py-2 font-medium text-sm ${
+            activeTab === 'comparison'
+              ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+          }`}
+        >
+          Vergleich
+        </button>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'overview' && (
+        <div className="space-y-6">
+          <div className="bg-blue-50 dark:bg-blue-900 p-6 rounded-lg">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+              Interpretation Ihres Ergebnisses
+            </h3>
+            <div className="space-y-3 text-gray-700 dark:text-gray-300">
+              <p><strong>0-21 Punkte:</strong> Normaler Bereich - Keine auffälligen autistischen Züge</p>
+              <p><strong>22-25 Punkte:</strong> Grenzbereich - Einige autistische Züge können vorhanden sein</p>
+              <p><strong>26-31 Punkte:</strong> Erhöhter Bereich - Möglicherweise liegen autistische Züge vor</p>
+              <p><strong>32-50 Punkte:</strong> Hoher Bereich - Professionelle Beratung wird empfohlen</p>
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 dark:bg-yellow-900 p-6 rounded-lg">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+              Wichtiger Hinweis
+            </h3>
+            <p className="text-gray-700 dark:text-gray-300">
+              Dieser Test ist nur ein Screening-Instrument und ersetzt keine professionelle Diagnose. 
+              Bei Fragen oder Bedenken wenden Sie sich bitte an einen qualifizierten Facharzt oder Psychologen.
+            </p>
           </div>
         </div>
+      )}
 
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">Interpretation</h2>
-          <p className="text-gray-700">{getInterpretation(score)}</p>
-          
-          <div className="mt-4">
-            <h3 className="font-semibold mb-2">Referenzwerte nach AQ-50:</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm">
-              <li>16,4 Punkte: Statistischer Mittelwert bei Personen ohne ASS (41%)</li>
-              <li>20 Punkte: 50% Wahrscheinlichkeit</li>
-              <li>25 Punkte: 62,5% Wahrscheinlichkeit</li>
-              <li>32 Punkte: 80% Wahrscheinlichkeit (Schwellwert für ASS)</li>
-              <li>40 Punkte: 100% Wahrscheinlichkeit</li>
-              <li>50 Punkte: 125% Wahrscheinlichkeit (maximaler Wert)</li>
-            </ul>
+      {activeTab === 'subscales' && detailedScore && (
+        <div className="space-y-6">
+          {subscales.map((subscale) => {
+            const subscaleScore = detailedScore.subscaleScores[subscale.name];
+            return (
+              <div key={subscale.name} className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {subscale.name}
+                  </h3>
+                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    {subscaleScore.score}/{subscaleScore.maxScore}
+                  </span>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  {subscale.description}
+                </p>
+                <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
+                  <div
+                    className="bg-blue-600 dark:bg-blue-500 h-3 rounded-full transition-all duration-300"
+                    style={{ width: `${subscaleScore.percentage}%` }}
+                  />
+                </div>
+                <div className="text-right text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  {subscaleScore.percentage}%
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {activeTab === 'comparison' && (
+        <div className="space-y-6">
+          <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+              Vergleich mit Normwerten
+            </h3>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-700 dark:text-gray-300">Ihr Ergebnis:</span>
+                <span className="font-bold text-blue-600 dark:text-blue-400">{score} Punkte</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-700 dark:text-gray-300">Allgemeinbevölkerung (Durchschnitt):</span>
+                <span className="text-gray-600 dark:text-gray-400">{normValues.general.mean} Punkte</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-700 dark:text-gray-300">Studierende (Durchschnitt):</span>
+                <span className="text-gray-600 dark:text-gray-400">{normValues.students.mean} Punkte</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-700 dark:text-gray-300">Personen mit Autismus (Durchschnitt):</span>
+                <span className="text-gray-600 dark:text-gray-400">{normValues.autism.mean} Punkte</span>
+              </div>
+            </div>
           </div>
         </div>
+      )}
 
-        {renderHelpResources()}
-
-        <div className="bg-yellow-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">Wichtiger Hinweis</h2>
-          <p className="text-gray-700">
-            Bitte beachten Sie, dass dieser Test nur ein Screening-Instrument ist und keine 
-            professionelle Diagnose ersetzt. Bei Fragen oder Bedenken wenden Sie sich bitte 
-            an einen qualifizierten Facharzt oder Psychologen.
-          </p>
-        </div>
-
-        <div className="flex gap-4">
-          <button
-            onClick={handleDownloadPDF}
-            className="flex-1 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            PDF-Auswertung herunterladen
-          </button>
-          
-          <button
-            onClick={() => navigate('/')}
-            className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Zurück zum Start
-          </button>
-        </div>
+      {/* Action Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 mt-8">
+        <button
+          onClick={handleDownloadPDF}
+          className="flex-1 bg-blue-600 dark:bg-blue-700 text-white px-6 py-3 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+        >
+          📄 Ergebnisse als PDF herunterladen
+        </button>
+        <button
+          onClick={() => navigate('/')}
+          className="flex-1 bg-gray-600 dark:bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
+        >
+          🔄 Test erneut durchführen
+        </button>
       </div>
     </div>
   );
 };
 
-export default Results; 
+export default Results;

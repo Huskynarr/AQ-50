@@ -2,46 +2,46 @@ import React from 'react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-800 text-white py-6 mt-8">
+    <footer className="bg-gray-800 dark:bg-gray-900 text-white py-6 mt-8">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-4 pb-4 border-b border-gray-700">
+          <div className="mb-4 pb-4 border-b border-gray-700 dark:border-gray-600">
             <p className="text-center mb-2">
               Basierend auf dem offiziellen AQ-50 Fragebogen des 
               <a 
                 href="https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-300 hover:text-blue-200 ml-1"
+                className="text-blue-300 dark:text-blue-400 hover:text-blue-200 dark:hover:text-blue-300 ml-1"
               >
                 Autism Research Centre
               </a>
             </p>
-            <p className="text-center text-gray-400 text-sm">
+            <p className="text-center text-gray-400 dark:text-gray-500 text-sm">
               Dieser Test dient lediglich zur Selbsteinschätzung und ersetzt keine professionelle Diagnose.
               Alle Angaben sind ohne Gewähr und müssen von Fachpersonal bestätigt werden.
             </p>
           </div>
           
           <div className="text-center">
-            <p className="text-gray-400 mb-2">
+            <p className="text-gray-400 dark:text-gray-500 mb-2">
               Open Source auf 
               <a 
                 href="https://github.com/Huskynarr/AQ-50" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-300 hover:text-blue-200 ml-1"
+                className="text-blue-300 dark:text-blue-400 hover:text-blue-200 dark:hover:text-blue-300 ml-1"
               >
                 GitHub
               </a>
             </p>
-            <p className="text-gray-400">
+            <p className="text-gray-400 dark:text-gray-500">
               Made with <span className="text-red-500">❤</span> by 
               <a 
                 href="https://huskynarr.de" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-300 hover:text-blue-200 ml-1"
+                className="text-blue-300 dark:text-blue-400 hover:text-blue-200 dark:hover:text-blue-300 ml-1"
               >
                 Huskynarr
               </a>
