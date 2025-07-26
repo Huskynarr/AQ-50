@@ -1,101 +1,202 @@
 # AQ-50 Online Test
 
-Ein webbasierter Test zur Erfassung des Autismus-Spektrum-Quotienten (AQ-50) basierend auf dem offiziellen Fragebogen des Autism Research Centre.
+Ein professioneller webbasierter Test zur Erfassung des Autismus-Spektrum-Quotienten (AQ-50) basierend auf dem offiziellen Fragebogen des Autism Research Centre.
 
-## Beschreibung
+## 🎯 Features
 
-Diese Anwendung ermöglicht es Benutzern, den AQ-50 Test online durchzuführen. Der Test besteht aus 50 Fragen, die verschiedene Aspekte des Autismus-Spektrums erfassen. Die Fragen basieren auf dem offiziellen deutschen AQ-50 Fragebogen.
+### ✨ Benutzerfreundlichkeit
+- **Dark Mode Support** - Automatische Systemerkennung + manueller Toggle
+- **Responsive Design** - Optimiert für Desktop, Tablet und Mobile
+- **Keyboard Navigation** - Schnelle Antworten mit Tasten 1-4
+- **Auto-Save Funktion** - Automatische Zwischenspeicherung des Fortschritts
+- **Visueller Fortschrittsbalken** - Echtzeit-Anzeige des Testfortschritts
+- **Navigation Controls** - Vor/Zurück-Buttons für flexible Testdurchführung
 
-## Technologien
+### 📊 Erweiterte Auswertung
+- **Detaillierte Subskalen-Analyse** - 5 Kategorien mit individueller Bewertung:
+  - Soziale Fertigkeiten
+  - Aufmerksamkeitswechsel  
+  - Aufmerksamkeit für Details
+  - Kommunikation
+  - Vorstellungskraft
+- **Normwert-Vergleiche** - Vergleich mit Referenzpopulationen
+- **Professionelle Interpretation** - Evidenzbasierte Bewertungsrichtlinien
+- **Visuelle Datenrepräsentation** - Fortschrittsbalken und Prozentanzeigen
 
-- React.js
-- TypeScript
-- Vite (Build Tool)
-- Tailwind CSS (Styling)
+### 📄 PDF-Export
+- **Umfassende Berichte** - Detaillierte Auswertung mit allen Subskalen
+- **Professionelles Layout** - Druckoptimierte Formatierung
+- **Vollständige Antwortdokumentation** - Alle Fragen und Antworten im Detail
+- **Interpretationshilfen** - Bewertungsskalen und Referenzwerte
 
-## Installation
+### ♿ Barrierefreiheit
+- **ARIA-Labels** - Vollständige Screen Reader Unterstützung
+- **Keyboard-Only Navigation** - Komplette Bedienung ohne Maus möglich
+- **Hohe Kontraste** - WCAG 2.1 AA konforme Farbgebung
+- **Focus Management** - Klare visuelle Fokusindikatoren
 
-1. Klonen Sie das Repository:
+### 🧪 Qualitätssicherung
+- **Unit Tests** - Umfassende Testabdeckung
+- **CI/CD Pipeline** - Automatisierte Tests und Deployment
+- **TypeScript** - Typsichere Entwicklung
+- **Performance Optimiert** - Schnelle Ladezeiten und flüssige Interaktionen
+
+## 🚀 Technologien
+
+- **React.js 18** - Moderne UI-Bibliothek
+- **TypeScript** - Typsichere Entwicklung
+- **Vite** - Schnelles Build-Tool
+- **Tailwind CSS** - Utility-First CSS Framework
+- **Vitest** - Modernes Testing Framework
+- **jsPDF + html2canvas** - PDF-Generierung
+- **GitHub Actions** - CI/CD Pipeline
+
+## 📦 Installation
+
+1. Repository klonen:
 ```bash
 git clone git@github.com:Huskynarr/AQ-50.git
+cd AQ-50
 ```
 
-2. Installieren Sie die Abhängigkeiten:
+2. Abhängigkeiten installieren:
 ```bash
 npm install
 ```
 
-3. Starten Sie den Entwicklungsserver:
+3. Entwicklungsserver starten:
 ```bash
 npm run dev
 ```
 
-## Build-Prozess
+## 🛠️ Verfügbare Scripts
 
-1. Für die Produktionsversion bauen:
+```bash
+# Entwicklung
+npm run dev          # Entwicklungsserver starten
+npm run build        # Produktions-Build erstellen
+npm run preview      # Build-Vorschau lokal testen
+
+# Testing
+npm run test         # Tests im Watch-Modus
+npm run test:run     # Tests einmalig ausführen
+npm run test:ui      # Test-UI öffnen
+npm run test:coverage # Test-Coverage generieren
+
+# Code-Qualität
+npm run lint         # ESLint ausführen
+
+# Deployment
+npm run deploy       # Auf GitHub Pages deployen
+```
+
+## 🚀 Deployment
+
+### GitHub Pages (Automatisch)
+Das Projekt wird automatisch auf GitHub Pages deployed bei:
+- Push auf `main` Branch
+- Erstellung eines neuen Releases
+
+### Manuelles Deployment
 ```bash
 npm run build
-```
-Dies erstellt einen optimierten Build im `dist` Verzeichnis.
-
-2. Vorschau der Produktionsversion lokal testen:
-```bash
-npm run preview
-```
-
-3. Deployment:
-- Der Build kann auf jedem statischen Webhosting-Dienst deployed werden
-- Die Dateien im `dist` Verzeichnis müssen auf den Webserver hochgeladen werden
-- Für optimale Performance wird ein CDN empfohlen
-
-### Deployment auf GitHub Pages
-
-1. Fügen Sie die `homepage`-Eigenschaft in `package.json` hinzu:
-```json
-{
-  "homepage": "https://huskynarr.github.io/AQ-50"
-}
-```
-
-2. Installieren Sie das GitHub Pages Deployment-Paket:
-```bash
-npm install gh-pages --save-dev
-```
-
-3. Fügen Sie die Deployment-Skripte in `package.json` hinzu:
-```json
-{
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
-  }
-}
-```
-
-4. Deployment durchführen:
-```bash
 npm run deploy
 ```
 
-5. GitHub Repository-Einstellungen:
-   - Gehen Sie zu "Settings" > "Pages"
-   - Wählen Sie unter "Source" den Branch "gh-pages"
-   - Wählen Sie den Ordner "/ (root)"
-   - Klicken Sie auf "Save"
+## 🧪 Testing
 
-Die Anwendung ist nun unter `https://huskynarr.github.io/AQ-50` verfügbar.
+Das Projekt verwendet Vitest für Unit Tests:
 
-## Verwendung
+```bash
+# Tests ausführen
+npm run test
 
-1. Öffnen Sie die Anwendung in Ihrem Browser
-2. Lesen Sie die Einleitung und Anweisungen
-3. Beantworten Sie alle 50 Fragen
-4. Am Ende erhalten Sie eine Zusammenfassung Ihrer Antworten
+# Tests mit Coverage
+npm run test:coverage
 
-## Lizenz
+# Test UI öffnen
+npm run test:ui
+```
 
-Dieses Projekt ist unter der MIT-Lizenz lizenziert.
+## 📊 Scoring-System
 
-## Hinweis
+Der AQ-50 Test verwendet ein wissenschaftlich validiertes Bewertungssystem:
 
-Dieser Test ist nur ein Screening-Instrument und ersetzt keine professionelle Diagnose. Bei Fragen oder Bedenken wenden Sie sich bitte an einen qualifizierten Facharzt oder Psychologen. 
+- **0-21 Punkte**: Normaler Bereich
+- **22-25 Punkte**: Grenzbereich  
+- **26-31 Punkte**: Erhöhter Bereich
+- **32-50 Punkte**: Hoher Bereich (professionelle Beratung empfohlen)
+
+### Subskalen
+1. **Soziale Fertigkeiten** (10 Fragen)
+2. **Aufmerksamkeitswechsel** (10 Fragen)
+3. **Aufmerksamkeit für Details** (10 Fragen)
+4. **Kommunikation** (10 Fragen)
+5. **Vorstellungskraft** (10 Fragen)
+
+## 🔧 Konfiguration
+
+### Vite Konfiguration
+Die Anwendung ist für GitHub Pages optimiert konfiguriert.
+
+### Tailwind CSS
+Dark Mode ist über die `class` Strategie aktiviert.
+
+### TypeScript
+Strict Mode ist aktiviert für maximale Typsicherheit.
+
+## 🤝 Contributing
+
+1. Fork des Repositories erstellen
+2. Feature Branch erstellen (`git checkout -b feature/AmazingFeature`)
+3. Änderungen committen (`git commit -m 'Add some AmazingFeature'`)
+4. Branch pushen (`git push origin feature/AmazingFeature`)
+5. Pull Request erstellen
+
+## 📝 Changelog
+
+### v2.0.0 (2025-01-26)
+- ✨ Dark Mode Support mit System-Präferenz-Erkennung
+- ✨ Erweiterte Subskalen-Analyse mit 5 Kategorien
+- ✨ Keyboard Navigation (Tasten 1-4)
+- ✨ Auto-Save Funktionalität
+- ✨ Verbesserte PDF-Exports mit detaillierter Auswertung
+- ✨ Responsive Design Verbesserungen
+- ✨ Accessibility Enhancements
+- ✨ Unit Testing Suite
+- ✨ CI/CD Pipeline
+- ✨ Navigation Controls (Vor/Zurück)
+
+### v1.2.0 (2025-01-26)
+- ✨ PDF-Export Funktionalität
+- 🐛 Verschiedene Bugfixes
+
+### v1.0.0 (Initial Release)
+- ✨ Grundlegende AQ-50 Test Funktionalität
+- ✨ 50 Fragen basierend auf offiziellem Fragebogen
+- ✨ Einfache Auswertung
+
+## ⚠️ Wichtiger Hinweis
+
+Dieser Test ist nur ein Screening-Instrument und ersetzt keine professionelle Diagnose. Bei Fragen oder Bedenken wenden Sie sich bitte an einen qualifizierten Facharzt oder Psychologen.
+
+## 📄 Lizenz
+
+Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe [LICENSE](LICENSE) Datei für Details.
+
+## 🙏 Danksagungen
+
+- [Autism Research Centre](https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf) für den offiziellen AQ-50 Fragebogen
+- React.js Community für das großartige Framework
+- Tailwind CSS Team für das utility-first CSS Framework
+
+## 📞 Support
+
+Bei Fragen oder Problemen:
+- GitHub Issues erstellen
+- [Website](https://huskynarr.de) besuchen
+- [Live Demo](https://huskynarr.github.io/AQ-50) testen
+
+---
+
+**Made with ❤️ by [Huskynarr](https://huskynarr.de)** 
