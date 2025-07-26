@@ -83,7 +83,7 @@ const Test: React.FC = () => {
     } else {
       // Calculate score and navigate to results
       const score = calculateScore();
-      navigate('/results', { state: { score } });
+      navigate('/results', { state: { score, answers } });
     }
   };
 
