@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { generatePDF } from '../utils/pdfGenerator';
 import { calculateDetailedScore, subscales, normValues } from '../utils/scoring';
+import { questions, getAnswerLabel } from '../data/questions';
 
 interface LocationState {
   score: number;
@@ -11,83 +12,32 @@ interface LocationState {
 const Results: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { score, answers } = location.state as LocationState;
+  const state = location.state as LocationState | null;
   const [activeTab, setActiveTab] = useState<'overview' | 'subscales' | 'comparison'>('overview');
+
+  // Bei direktem Aufruf ohne Testergebnis zurück zur Startseite leiten
+  useEffect(() => {
+    if (!state) {
+      navigate('/', { replace: true });
+    }
+  }, [state, navigate]);
+
+  if (!state) {
+    return null;
+  }
+
+  const { score, answers } = state;
 
   // Berechne detaillierte Auswertung
   const detailedScore = answers ? calculateDetailedScore(answers) : null;
 
-  // Die vollständigen 50 Fragen des AQ-50 Tests
-  const questions = [
-    "Ich tue Dinge lieber mit anderen gemeinsam als alleine.",
-    "Ich mache Dinge am liebsten immer wieder auf dieselbe Art und Weise.",
-    "Wenn ich mir etwas vorzustellen versuche, fällt es mir leicht, mir ein Bild davon in meinem Kopf zu machen.",
-    "Ich lasse mich oft so stark von einer Sache gefangen nehmen, dass ich andere Dinge aus den Augen verliere.",
-    "Oft bemerke ich kleine Geräusche, wenn andere nichts hören.",
-    "Ich achte häufig auf Auto- und Kennzeichen oder ähnliche Abfolgen von Informationen.",
-    "Andere Leute sagen mir oft, dass das, was ich gesagt habe, unhöflich sei, obwohl ich selbst denke, dass es höflich ist.",
-    "Wenn ich mir eine Geschichte ausdenke, kann ich mir leicht vorstellen, wie die Charaktere aussehen könnten und wie sie sich verhalten würden.",
-    "Ich bin fasziniert von Datumsangaben.",
-    "In einer Gruppe kann ich verschiedenen Unterhaltungen mehrerer Leute mühelos folgen.",
-    "Ich kann gut mit sozialen Situationen umgehen.",
-    "Ich neige dazu, Details zu bemerken, die anderen nicht auffallen.",
-    "Ich würde lieber in eine Bibliothek als auf eine Party gehen.",
-    "Ich kann mir leicht Geschichten ausdenken.",
-    "Ich fühle mich stärker zu Menschen als zu Dingen hingezogen.",
-    "Ich neige dazu, sehr starke Interessen zu haben, und bin aufgebracht, wenn ich diesen nicht nachgehen kann.",
-    "Ich genieße Small Talk.",
-    "Wenn ich rede, ist es für andere nicht immer leicht, zu Wort zu kommen.",
-    "Zahlen faszinieren mich.",
-    "Wenn ich mir eine Geschichte anhöre oder lese, finde ich es schwierig, mir die Absichten der Charaktere vorzustellen.",
-    "Ich lese nicht gerne Literatur.",
-    "Ich finde es schwierig, neue Freunde zu finden.",
-    "Ich bemerke ständig Muster in verschiedenen Dingen.",
-    "Ich würde lieber ins Theater als in ein Museum gehen.",
-    "Es stört mich nicht, wenn meine tägliche Routine unterbrochen wird.",
-    "Ich bemerke oft, dass ich nicht weiß, wie man ein Gespräch am Laufen hält.",
-    "Ich finde es leicht, zwischen den Zeilen zu lesen wenn jemand mit mir spricht.",
-    "Ich konzentriere mich normalerweise mehr auf das Gesamtbild als auf kleine Details.",
-    "Ich bin nicht sehr gut darin, mir Telefonnummern zu merken.",
-    "Ich bemerke gewöhnlich keine kleinen Veränderungen in einer Situation oder im Erscheinungsbild einer Person.",
-    "Ich kann merken, ob jemand, der mir zuhört, gelangweilt ist.",
-    "Ich finde es leicht, mehr als eine Sache gleichzeitig zu tun.",
-    "Am Telefon bin ich mir nicht sicher, wann ich an der Reihe bin zu sprechen.",
-    "Ich unternehme Dinge gerne spontan.",
-    "Ich kann oft vorhersagen, was jemand gleich tun wird.",
-    "Ich bin gut darin, Situationen zu meistern, in denen es um gesellschaftliche Zusammenkünfte oder soziale Interaktionen geht.",
-    "Wenn ich mit jemandem rede, fällt es mir leicht zu verstehen, was sie statt meiner sagen könnten.",
-    "Ich bin oft in Dinge vertieft, die ich tue, sodass ich vergesse, was um mich herum passiert.",
-    "Leute sagen mir, dass ich immer wieder auf dasselbe Thema zurückkomme.",
-    "Als Kind mochte ich gerne Spiele spielen, bei denen man so tut, als wäre man jemand anderes.",
-    "Ich sammle gerne Informationen über Kategorien von Dingen (z.B. Autotypen, Vogelarten, Zugarten, Pflanzenarten).",
-    "Ich finde es schwierig, mir vorzustellen, wie es wäre, jemand anderes zu sein.",
-    "Ich plane sorgfältig alle Aktivitäten, die ich unternehme.",
-    "Ich genieße soziale Anlässe.",
-    "Ich finde es schwierig, die Absichten anderer Menschen zu erkennen.",
-    "Neue Situationen machen mich ängstlich.",
-    "Ich treffe gerne neue Menschen.",
-    "Ich bin ein guter Diplomat.",
-    "Ich bin nicht sehr gut darin, mich an Geburtsdaten zu erinnern.",
-    "Ich finde es sehr leicht, mit Kindern Spiele zu spielen, bei denen man so tut, als wäre man jemand anderes."
-  ];
-
-  const getAnswerLabel = (value: number) => {
-    switch(value) {
-      case 0: return "Ich stimme nicht zu";
-      case 1: return "Ich stimme eher nicht zu";
-      case 2: return "Ich stimme eher zu";
-      case 3: return "Ich stimme zu";
-      default: return "";
-    }
-  };
-
   const handleDownloadPDF = async () => {
     if (!answers) return;
-    
+
     const answersArray = Object.entries(answers).map(([questionId, answerValue]) => ({
       questionId: parseInt(questionId),
       answer: getAnswerLabel(answerValue),
-      question: questions[parseInt(questionId) - 1]
+      question: questions[parseInt(questionId) - 1].text
     }));
 
     await generatePDF(score, answersArray, detailedScore);

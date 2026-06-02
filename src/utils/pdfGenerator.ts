@@ -1,5 +1,5 @@
-import jsPDF from 'jspdf';
-import { DetailedScore, subscales } from './scoring';
+import type { DetailedScore } from './scoring';
+import { subscales } from './scoring';
 
 interface Answer {
   questionId: number;
@@ -9,6 +9,8 @@ interface Answer {
 
 export const generatePDF = async (score: number, answers: Answer[], detailedScore: DetailedScore | null) => {
   try {
+    // jspdf wird erst beim PDF-Export dynamisch geladen, um das initiale Bundle klein zu halten.
+    const { default: jsPDF } = await import('jspdf');
     const doc = new jsPDF();
     let yPosition = 20;
     const pageHeight = doc.internal.pageSize.height;

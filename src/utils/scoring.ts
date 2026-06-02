@@ -33,8 +33,9 @@ export const subscales: Subscale[] = [
     name: "Kommunikation",
     description: "Schwierigkeiten in der verbalen und nonverbalen Kommunikation",
     questions: [7, 17, 18, 26, 27, 31, 33, 35, 38, 39],
-    agreePoints: [7, 18, 26, 33, 39],
-    disagreePoints: [17, 27, 31, 35, 38]
+    // Item 35 ist im offiziellen AQ-50-Schlüssel ein "Zustimmung gibt Punkt"-Item.
+    agreePoints: [7, 18, 26, 33, 35, 39],
+    disagreePoints: [17, 27, 31, 38]
   },
   {
     name: "Vorstellungskraft",
