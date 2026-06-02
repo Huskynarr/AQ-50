@@ -125,18 +125,35 @@ describe('Scoring Utility', () => {
       subscales.forEach(subscale => {
         const allPoints = [...subscale.agreePoints, ...subscale.disagreePoints];
         const uniquePoints = new Set(allPoints);
-        
+
         // No overlap between agree and disagree points
         expect(uniquePoints.size).toBe(allPoints.length);
-        
+
         // All points should be in the subscale's questions
         allPoints.forEach(point => {
           expect(subscale.questions).toContain(point);
         });
-        
+
         // All questions should have either agree or disagree points
         expect(allPoints.length).toBe(subscale.questions.length);
       });
+    });
+
+    it('should match the official AQ-50 scoring key', () => {
+      // Offizieller AQ-50-Schlüssel (Baron-Cohen et al., 2001):
+      // "Zustimmung gibt Punkt" und "Ablehnung gibt Punkt".
+      const officialAgree = [
+        2, 4, 5, 6, 7, 9, 12, 13, 16, 18, 19, 20, 21, 22, 23, 26, 33, 35, 39, 41, 42, 43, 45, 46,
+      ].sort((a, b) => a - b);
+      const officialDisagree = [
+        1, 3, 8, 10, 11, 14, 15, 17, 24, 25, 27, 28, 29, 30, 31, 32, 34, 36, 37, 38, 40, 44, 47, 48, 49, 50,
+      ].sort((a, b) => a - b);
+
+      const agree = subscales.flatMap(s => s.agreePoints).sort((a, b) => a - b);
+      const disagree = subscales.flatMap(s => s.disagreePoints).sort((a, b) => a - b);
+
+      expect(agree).toEqual(officialAgree);
+      expect(disagree).toEqual(officialDisagree);
     });
   });
 });
