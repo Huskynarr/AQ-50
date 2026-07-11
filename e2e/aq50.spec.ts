@@ -17,14 +17,27 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('landing page exposes privacy, evidence and the official questionnaire', async ({ page }) => {
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Autistische Merkmale');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Welcher AQ-Test');
   await expect(page.getByText('Keine Datenübertragung')).toBeVisible();
   await expect(page.getByRole('link', { name: /Offizieller Fragebogen/ })).toHaveAttribute('href', /AQ_Adult_German\.pdf/);
   await expect(page.getByRole('link', { name: /Originalstudie/ }).first()).toHaveAttribute('href', 'https://doi.org/10.1023/A:1005653411471');
 });
 
+test('AQ-k has a separate evidence-led entry and complete result flow', async ({ page }) => {
+  await page.getByRole('button', { name: /empfohlenen Kurztest/ }).click();
+  await expect(page.getByRole('heading', { name: 'AQ-k · 33 Fragen' })).toBeVisible();
+  await page.getByRole('button', { name: /AQ-k starten/ }).click();
+  for (let question = 1; question <= 33; question += 1) {
+    await page.getByText('Ich stimme eindeutig zu', { exact: true }).click();
+    if (question < 33) await expect(page.getByText(`Frage ${question + 1} von 33`, { exact: true })).toBeVisible();
+  }
+  await expect(page.getByRole('heading', { name: 'AQ-k Ergebnis' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Offizieller AQ-k-Fragebogen' })).toHaveAttribute('href', /AQ_Erwachsene\.pdf/);
+  await expect(page.getByText('Keine Diagnose, keine Gewähr.')).toBeVisible();
+});
+
 test('progress survives reload and malformed storage is handled safely', async ({ page }) => {
-  await page.getByRole('button', { name: /Selbsttest starten/ }).click();
+  await page.getByRole('button', { name: /ausführlichen.*Test|50-Fragen-Version/ }).first().click();
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Ich mache Sachen lieber');
   await page.getByText('Ich stimme eher zu', { exact: true }).click();
   await expect(page.getByText('Frage 2 von 50', { exact: true })).toBeVisible();
@@ -110,5 +123,12 @@ test('core pages have no automatically detectable WCAG violations', async ({ pag
   await page.goto('./#/results');
   await scan();
   await page.getByRole('button', { name: /Dunkles Farbschema verwenden/ }).click();
+  await scan();
+  await page.goto('./#/aq-k');
+  await scan();
+  await page.goto('./#/aq-k/test');
+  await scan();
+  await page.evaluate(() => localStorage.setItem('aqk-result', JSON.stringify({ score: 17, answers: Object.fromEntries(Array.from({ length: 33 }, (_, index) => [index + 1, 0])) })));
+  await page.goto('./#/aq-k/results');
   await scan();
 });

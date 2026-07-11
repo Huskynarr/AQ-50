@@ -7,6 +7,14 @@ export interface Question {
   text: string;
 }
 
+export const questionnaireSource = {
+  title: "AQ 50 – Autism Spectrum Quotient – Ages > 16, Deutsch",
+  url: "https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf",
+  authors: "Simon Baron-Cohen, Sally Wheelwright, Richard Skinner, Joanne Martin und Emma Clubley",
+  germanVersion: "Jürgen Kremer, Universitätsklinikum Essen",
+  verifiedOn: "2026-07-11",
+} as const;
+
 // Antwortmöglichkeiten der 4-stufigen Likert-Skala (Index 0–3).
 export const answerOptions = [
   "Ich stimme nicht zu",
@@ -38,34 +46,34 @@ export const questions: Question[] = [
   { id: 18, text: "Wenn ich etwas vortrage, können mich andere kaum unterbrechen und es ist für das Publikum schwierig, mir zu folgen." },
   { id: 19, text: "Zahlen, Tabellen und Grafiken faszinieren mich." },
   { id: 20, text: "Bei der Literatur, bei Hörspielen oder im Theater ist es für mich schwierig, die Absichten der Charaktere zu erraten." },
-  { id: 21, text: "Ich bevorzuge Sachbücher anstelle von Romanen." },
+  { id: 21, text: "Ich bevorzuge Sachbücher anstelle von Romane." },
   { id: 22, text: "Es ist für mich schwierig, neue Freundschaften zu schließen." },
   { id: 23, text: "Mir fallen Regelmäßigkeiten an Sachen oder Zusammenhängen auf." },
   { id: 24, text: "Ich gehe lieber in ein Theater als in ein Museum." },
   { id: 25, text: "Ich bin flexibel, wenn sich mein gewohnter Tagesablauf verändert." },
   { id: 26, text: "Ich weiß oft nicht, wie ich eine Konversation aufrechterhalten soll." },
-  { id: 27, text: "Zwischentöne – oder die eigentliche Botschaft – höre ich gut heraus; und kann gut zwischen den Zeilen lesen." },
+  { id: 27, text: "Zwischentöne – oder die eigentliche Botschaft – höre ich gut heraus; und kann gut „Zwischen den Zeilen lesen“." },
   { id: 28, text: "Ich konzentriere mich mehr auf das Gesamtbild als auf Details." },
   { id: 29, text: "Telefon- und Kontonummern vergesse ich schnell." },
-  { id: 30, text: "Kleine Veränderungen bei dem Erscheinungsbild von Personen oder in wiederkehrenden Situationen bemerke ich kaum." },
+  { id: 30, text: "Kleine Veränderungen bei dem Erscheinungsbild von Personen oder in wiederkehrenden Situationen, bemerke ich kaum." },
   { id: 31, text: "Wenn ich mich unterhalte oder spiele, merke ich, wenn es anfängt, den anderen zu langweilen." },
   { id: 32, text: "Es ist mir leicht, mehrere Sachen gleichzeitig zu tun." },
   { id: 33, text: "Wenn ich mich unterhalte, weiß ich nicht genau, wer gerade an der Reihe ist, das Wort zu ergreifen." },
   { id: 34, text: "Ich bin gerne spontan." },
-  { id: 35, text: "Bei einem Witz verstehe ich die Pointen oft als allerletzte Person." },
-  { id: 36, text: "Was jemand denkt oder fühlt, sehe ich an Gesicht und Blick." },
+  { id: 35, text: "Bei einem Witz verstehe ich die Pointen oft als allerletzte/r." },
+  { id: 36, text: "Was jemand denkt oder fühlt, sehe ich an seinem Gesicht und Blick." },
   { id: 37, text: "Wenn ich eine Pause mache oder unterbrochen werde, finde ich anschließend schnell wieder in eine angefangene Sache hinein." },
-  { id: 38, text: "Es macht mir Freude, mit anderen einfach so dahinzuplaudern." },
+  { id: 38, text: "Es macht mir Freude, mit anderen einfach so dahin-zu-plaudern." },
   { id: 39, text: "Ich spreche immer über dieselben Dinge oder tue dieselben Dinge." },
   { id: 40, text: "Als ich jung war, spielte ich gerne Rollenspiele mit anderen Kindern." },
-  { id: 41, text: "Ich sammle gerne Informationen und erforsche gerne Zusammenhänge in meinem Interessensgebiet." },
+  { id: 41, text: "Ich sammele gerne Informationen und erforsche gerne Zusammenhänge in meinem Interessensgebiet." },
   { id: 42, text: "Es ist für mich schwierig, mich in andere hineinzuversetzen." },
   { id: 43, text: "Ich plane alle Sachen immer sehr gründlich und bereite mich eingehend auf Aktivitäten oder Situationen vor." },
   { id: 44, text: "Soziale Ereignisse oder Anlässe genieße ich." },
-  { id: 45, text: "Die Absichten anderer zu erkennen oder vorauszuahnen, ist für mich schwierig." },
+  { id: 45, text: "Die Absichten anderer zu erkennen oder voraus-zu-erahnen, ist für mich schwierig." },
   { id: 46, text: "Situationen mit fremden Personen oder in unbekannten Räumen ängstigen mich." },
   { id: 47, text: "Ich mache gerne neue Bekanntschaften." },
   { id: 48, text: "Ich bin sehr diplomatisch." },
   { id: 49, text: "An Geburtstage erinnere ich mich ungenau." },
-  { id: 50, text: "Es ist mir leicht, Fantasiespiele zu spielen, bei denen man schauspielern soll." },
+  { id: 50, text: "Es ist mir leicht, Phantasie-Spiele zu spielen, bei denen man schauspielern soll." },
 ];

@@ -14,16 +14,14 @@ const Introduction = () => {
     <div className="landing">
       <section className="hero" aria-labelledby="page-title">
         <div className="hero-copy">
-          <p className="eyebrow">Wissenschaftlich fundierte Selbsteinschätzung</p>
-          <h1 id="page-title">Autistische Merkmale besser einordnen.</h1>
+          <p className="eyebrow">Zwei wissenschaftlich belegte Varianten</p>
+          <h1 id="page-title">Welcher AQ-Test passt zu Ihnen?</h1>
           <p className="hero-lead">
-            Der AQ-50 erfasst autistische Merkmale bei Erwachsenen ab 16 Jahren. Kostenlos, anonym und direkt im Browser ausgewertet.
+            Wählen Sie zwischen der in Deutschland evaluierten Kurzfassung AQ-k und der ausführlichen historischen AQ-50-Fassung. Beide sind anonym und lokal.
           </p>
           <div className="hero-actions">
-            <button className="button button-primary button-large" onClick={() => navigate('/test')}>
-              {progress ? 'Test fortsetzen' : 'Selbsttest starten'} <span aria-hidden="true">→</span>
-            </button>
-            {progress && <button className="button button-secondary button-large" onClick={restart}>Neu beginnen</button>}
+            <button className="button button-primary button-large" onClick={() => navigate('/aq-k')}>Mit dem empfohlenen Kurztest beginnen <span aria-hidden="true">→</span></button>
+            <button className="hero-alternative" onClick={() => navigate('/test')}>{progress ? 'Gespeicherten ausführlichen Test fortsetzen' : 'Mehr Zeit? Zur ausführlichen 50-Fragen-Version'} <span aria-hidden="true">→</span></button>
           </div>
           <div className="trust-row" aria-label="Eigenschaften des Tests">
             <span><b>50</b> Aussagen</span><span><b>10–15</b> Minuten</span><span><b>100 %</b> lokal</span>
@@ -39,6 +37,11 @@ const Introduction = () => {
             <li>Offizieller 4-stufiger AQ-Schlüssel</li>
           </ul>
         </aside>
+      </section>
+
+      <section className="variant-grid" aria-label="Testvarianten vergleichen">
+        <article className="card recommended"><span className="result-badge">Empfohlen für den Einstieg</span><h2>AQ-k · Deutsche Kurzfassung</h2><p>33 trennschärfere Items, drei Faktoren, etwa 7–10 Minuten. 2007 als deutschsprachiges Screening-Instrument evaluiert.</p><ul><li>Deutsche klinische Evaluation</li><li>Schwellenwert 17</li><li>Geringere Belastung</li></ul><button className="button button-primary" onClick={() => navigate('/aq-k')}>Details zum AQ-k →</button></article>
+        <article className="card"><span className="result-badge">Ausführliche Fassung</span><h2>AQ-50 · Originalinstrument</h2><p>50 Items, fünf theoretische Subskalen, etwa 10–15 Minuten. Für historische Vergleichbarkeit und detailliertere Antwortmuster.</p><ul><li>Originalstudie von 2001</li><li>Schwellenwert 32</li><li>Fünf deskriptive Subskalen</li></ul><button className="button button-secondary" onClick={() => navigate('/test')}>{progress ? 'AQ-50 fortsetzen →' : 'AQ-50 starten →'}</button>{progress && <button className="text-button" onClick={restart}>Gespeicherten AQ-50 neu beginnen</button>}</article>
       </section>
 
       <section className="info-grid" aria-label="So funktioniert der Test">

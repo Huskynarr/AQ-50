@@ -5,6 +5,7 @@ import Results from './components/Results';
 import Footer from './components/Footer';
 import ThemeToggle from './components/ThemeToggle';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { AqKIntroduction, AqKResults, AqKTest } from './components/AqK';
 
 const App = () => (
   <ThemeProvider>
@@ -15,7 +16,7 @@ const App = () => (
           <nav aria-label="Seiteneinstellungen und externe Quelle"><a href="https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf" target="_blank" rel="noreferrer">Originalfragebogen <span aria-hidden="true">↗</span></a><ThemeToggle /></nav>
         </header>
         <main className="site-main">
-          <Routes><Route path="/" element={<Introduction />} /><Route path="/test" element={<Test />} /><Route path="/results" element={<Results />} /><Route path="*" element={<Introduction />} /></Routes>
+          <Routes><Route path="/" element={<Introduction />} /><Route path="/test" element={<Test />} /><Route path="/results" element={<Results />} /><Route path="/aq-k" element={<AqKIntroduction />} /><Route path="/aq-k/test" element={<AqKTest />} /><Route path="/aq-k/results" element={<AqKResults />} /><Route path="*" element={<Introduction />} /></Routes>
         </main>
         <Footer />
       </div>
