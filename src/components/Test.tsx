@@ -67,7 +67,7 @@ const Test = () => {
       <div className="question-block">
         <p className="eyebrow">Frage {currentQuestion + 1}</p>
         <h1 id="question-heading" ref={headingRef} tabIndex={-1}>{question.text}</h1>
-        <p className="question-hint">Wählen Sie die Antwort, die am ehesten auf Sie zutrifft.</p>
+        <p className="question-hint">Die Auswahl wird direkt übernommen. Mit „Zurück“ können Sie Antworten jederzeit ändern.</p>
       </div>
 
       <fieldset className="answer-list">

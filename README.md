@@ -36,11 +36,12 @@ Qualitätsprüfung:
 ```bash
 npm run lint
 npm run test:run
+npm run test:e2e
 npm run build
 npm audit
 ```
 
-Der Stack verwendet React 19, React Router 7, Vite 8, TypeScript 5.9, ESLint 10 und Vitest 4. Das Deployment nach GitHub Pages erfolgt nach erfolgreichen Lint-, Test- und Build-Schritten über einen einzelnen GitHub-Actions-Workflow.
+Der Stack verwendet React 19, React Router 7, Vite 8, TypeScript 5.9, ESLint 10, Vitest 4 und Playwright. `npm run check` führt Linting, Unit-/Komponententests, Desktop- und Mobile-E2E-Tests sowie den Produktions-Build aus. Das Deployment nach GitHub Pages erfolgt erst nach erfolgreichen Prüfungen über einen einzelnen GitHub-Actions-Workflow.
 
 ## Datenschutz
 

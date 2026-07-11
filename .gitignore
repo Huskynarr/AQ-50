@@ -1,6 +1,8 @@
 # Alle Inhalte des Ordners node_modules ignorieren
 /node_modules/
 /coverage/
+/playwright-report/
+/test-results/
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts
