@@ -58,7 +58,7 @@ export interface DetailedScore {
   interpretation: string;
 }
 
-export const getInterpretation = (score: number): string => {
+const getInterpretation = (score: number): string => {
   if (score >= 32) {
     return "Der Wert liegt über dem in der Originalstudie vorgeschlagenen Schwellenwert von 32. Das ist keine Diagnose; bei Leidensdruck kann eine fachliche Abklärung sinnvoll sein.";
   }

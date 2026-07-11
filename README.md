@@ -22,7 +22,7 @@ Die Originalstudie schlug 32 Punkte als nützlichen Schwellenwert für klinisch 
 - Quellen und methodische Grenzen direkt in der Auswertung
 - lokales Autosave und wiederherstellbares Ergebnis ohne Serverübertragung
 - Tastaturbedienung, Fokusmanagement, Dark Mode und Reduced-Motion-Unterstützung
-- PDF-Bericht mit Antworten, Quellen und Disclaimer
+- PDF-Bericht für den AQ-50 mit Antworten, Quellen und Disclaimer
 - responsive Oberfläche ohne externes UI-Framework
 
 ## Entwicklung

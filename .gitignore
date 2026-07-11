@@ -1,5 +1,6 @@
 # Alle Inhalte des Ordners node_modules ignorieren
 /node_modules/
+/dist/
 /coverage/
 /playwright-report/
 /test-results/
