@@ -17,31 +17,22 @@ const Introduction = () => {
           <p className="eyebrow">Zwei wissenschaftlich belegte Varianten</p>
           <h1 id="page-title">Welcher AQ-Test passt zu Ihnen?</h1>
           <p className="hero-lead">
-            Wählen Sie zwischen der in Deutschland evaluierten Kurzfassung AQ-k und der ausführlichen historischen AQ-50-Fassung. Beide sind anonym und lokal.
+            Nehmen Sie sich einen ruhigen Moment für eine erste, wissenschaftlich fundierte Selbsteinschätzung. Kostenlos, anonym und ohne Weitergabe Ihrer Antworten.
           </p>
           <div className="hero-actions">
-            <button className="button button-primary button-large" onClick={() => navigate('/aq-k')}>Mit dem empfohlenen Kurztest beginnen <span aria-hidden="true">→</span></button>
-            <button className="hero-alternative" onClick={() => navigate('/test')}>{progress ? 'Gespeicherten ausführlichen Test fortsetzen' : 'Mehr Zeit? Zur ausführlichen 50-Fragen-Version'} <span aria-hidden="true">→</span></button>
+            <button className="button button-primary button-large" onClick={() => navigate('/aq-k')}>Kurztest starten <span aria-hidden="true">→</span></button>
+            <button className="button button-secondary button-large" onClick={() => document.getElementById('testvergleich')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Tests vergleichen <span aria-hidden="true">↓</span></button>
           </div>
           <div className="trust-row" aria-label="Eigenschaften des Tests">
-            <span><b>50</b> Aussagen</span><span><b>10–15</b> Minuten</span><span><b>100 %</b> lokal</span>
+            <span><b>ab 16</b> Jahren</span><span><b>7–10</b> Minuten</span><span><b>100 %</b> lokal</span>
           </div>
         </div>
-        <aside className="hero-panel" aria-label="Wichtige Einordnung">
-          <span className="panel-icon" aria-hidden="true">◇</span>
-          <h2>Ein Screening, keine Diagnose</h2>
-          <p>Das Ergebnis beschreibt Selbstauskünfte. Es kann eine fachliche Diagnostik weder bestätigen noch ausschließen.</p>
-          <ul className="check-list">
-            <li>Keine Anmeldung</li>
-            <li>Keine Datenübertragung</li>
-            <li>Offizieller 4-stufiger AQ-Schlüssel</li>
-          </ul>
-        </aside>
+        <figure className="hero-visual"><img src="/AQ-50/images/aq-welcome-illustration.jpg" alt="Ruhige Illustration einer Person mit Tasse und Notizbuch"/><figcaption><b>In Ihrem Tempo.</b><span>Sie können jederzeit pausieren und später weitermachen.</span></figcaption></figure>
       </section>
 
-      <section className="variant-grid" aria-label="Testvarianten vergleichen">
-        <article className="card recommended"><span className="result-badge">Empfohlen für den Einstieg</span><h2>AQ-k · Deutsche Kurzfassung</h2><p>33 trennschärfere Items, drei Faktoren, etwa 7–10 Minuten. 2007 als deutschsprachiges Screening-Instrument evaluiert.</p><ul><li>Deutsche klinische Evaluation</li><li>Schwellenwert 17</li><li>Geringere Belastung</li></ul><button className="button button-primary" onClick={() => navigate('/aq-k')}>Details zum AQ-k →</button></article>
-        <article className="card"><span className="result-badge">Ausführliche Fassung</span><h2>AQ-50 · Originalinstrument</h2><p>50 Items, fünf theoretische Subskalen, etwa 10–15 Minuten. Für historische Vergleichbarkeit und detailliertere Antwortmuster.</p><ul><li>Originalstudie von 2001</li><li>Schwellenwert 32</li><li>Fünf deskriptive Subskalen</li></ul><button className="button button-secondary" onClick={() => navigate('/test')}>{progress ? 'AQ-50 fortsetzen →' : 'AQ-50 starten →'}</button>{progress && <button className="text-button" onClick={restart}>Gespeicherten AQ-50 neu beginnen</button>}</article>
+      <section className="variant-grid" id="testvergleich" aria-label="Testvarianten vergleichen" tabIndex={-1}>
+        <article className="card recommended"><span className="result-badge">Empfohlen für den Einstieg</span><h2>Kurzer Selbsttest <small>AQ-k</small></h2><p>33 gezielt ausgewählte Aussagen, etwa 7–10 Minuten. Eine gute Wahl, wenn Sie sich zunächst unkompliziert orientieren möchten.</p><ul><li>In Deutschland wissenschaftlich untersucht</li><li>Kürzer und weniger belastend</li><li>Klare Einordnung des Ergebnisses</li></ul><button className="button button-primary" onClick={() => navigate('/aq-k')}>Kurztest ansehen →</button></article>
+        <article className="card"><span className="result-badge">Mehr Zeit und Details</span><h2>Ausführlicher Selbsttest <small>AQ-50</small></h2><p>50 Aussagen, etwa 10–15 Minuten. Sinnvoll, wenn Sie mehr Antwortbereiche betrachten oder mit der ursprünglichen Studie vergleichen möchten.</p><ul><li>Ausführlichere Selbsteinschätzung</li><li>Fünf beschreibende Bereiche</li><li>Vergleich mit der Studie von 2001</li></ul><button className="button button-secondary" onClick={() => navigate('/test')}>{progress ? 'Ausführlichen Test fortsetzen →' : 'Ausführlichen Test starten →'}</button>{progress && <button className="text-button" onClick={restart}>Gespeicherten Fortschritt löschen</button>}</article>
       </section>
 
       <section className="info-grid" aria-label="So funktioniert der Test">
@@ -49,6 +40,8 @@ const Introduction = () => {
         <article><span className="step">02</span><h2>Lokal fortsetzen</h2><p>Ihr Fortschritt bleibt ausschließlich in diesem Browser und kann jederzeit gelöscht werden.</p></article>
         <article><span className="step">03</span><h2>Besonnen einordnen</h2><p>Sie erhalten Gesamtwert und Subskalen samt Quellen, Grenzen und optionalem PDF.</p></article>
       </section>
+
+      <section className="reassurance"><div><p className="eyebrow">Gut zu wissen</p><h2>Ein geschützter Raum für Ihre Selbsteinschätzung.</h2></div><div className="reassurance-points"><p><b>Privat</b><span>Ihre Antworten verlassen dieses Gerät nicht.</span></p><p><b>Ohne Druck</b><span>Keine Zeitbegrenzung, kein Richtig oder Falsch.</span></p><p><b>Ehrlich eingeordnet</b><span>Quellen und Grenzen stehen direkt beim Ergebnis.</span></p></div></section>
 
       <section className="science card" id="wissenschaft">
         <div>

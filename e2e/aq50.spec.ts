@@ -18,13 +18,13 @@ test.beforeEach(async ({ page }) => {
 
 test('landing page exposes privacy, evidence and the official questionnaire', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Welcher AQ-Test');
-  await expect(page.getByText('Keine Datenübertragung')).toBeVisible();
+  await expect(page.getByText('Ihre Antworten verlassen dieses Gerät nicht.')).toBeVisible();
   await expect(page.getByRole('link', { name: /Offizieller Fragebogen/ })).toHaveAttribute('href', /AQ_Adult_German\.pdf/);
   await expect(page.getByRole('link', { name: /Originalstudie/ }).first()).toHaveAttribute('href', 'https://doi.org/10.1023/A:1005653411471');
 });
 
 test('AQ-k has a separate evidence-led entry and complete result flow', async ({ page }) => {
-  await page.getByRole('button', { name: /empfohlenen Kurztest/ }).click();
+  await page.getByRole('button', { name: /Kurztest starten/ }).click();
   await expect(page.getByRole('heading', { name: 'AQ-k · 33 Fragen' })).toBeVisible();
   await page.getByRole('button', { name: /AQ-k starten/ }).click();
   for (let question = 1; question <= 33; question += 1) {
