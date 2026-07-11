@@ -58,6 +58,13 @@ export interface DetailedScore {
   interpretation: string;
 }
 
+export const getInterpretation = (score: number): string => {
+  if (score >= 32) {
+    return "Der Wert liegt über dem in der Originalstudie vorgeschlagenen Schwellenwert von 32. Das ist keine Diagnose; bei Leidensdruck kann eine fachliche Abklärung sinnvoll sein.";
+  }
+  return "Der Wert liegt unter dem in der Originalstudie vorgeschlagenen Schwellenwert von 32. Auch ein niedrigerer Wert kann Autismus nicht ausschließen.";
+};
+
 export function calculateDetailedScore(answers: { [key: number]: number }): DetailedScore {
   let totalScore = 0;
   const subscaleScores: { [key: string]: { score: number; maxScore: number; percentage: number } } = {};
@@ -92,29 +99,16 @@ export function calculateDetailedScore(answers: { [key: number]: number }): Deta
     totalScore += subscaleScore;
   });
 
-  // Interpretation basierend auf Gesamtscore
-  let interpretation = "";
-  if (totalScore >= 32) {
-    interpretation = "Sehr hoher AQ-Score. Es wird empfohlen, professionelle Beratung zu suchen.";
-  } else if (totalScore >= 26) {
-    interpretation = "Hoher AQ-Score. Möglicherweise liegen autistische Züge vor.";
-  } else if (totalScore >= 22) {
-    interpretation = "Erhöhter AQ-Score. Einige autistische Züge können vorhanden sein.";
-  } else {
-    interpretation = "Normaler AQ-Score. Keine auffälligen autistischen Züge.";
-  }
-
   return {
     totalScore,
     subscaleScores,
-    interpretation
+    interpretation: getInterpretation(totalScore)
   };
 }
 
 // Normwerte für Vergleich
 export const normValues = {
   general: { mean: 16.4, sd: 6.3 },
-  autism: { mean: 35.8, sd: 6.9 },
-  asperger: { mean: 35.1, sd: 6.2 },
+  autism: { mean: 35.8, sd: 6.5 },
   students: { mean: 17.6, sd: 6.4 }
 };

@@ -1,77 +1,67 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { clearProgress, loadProgress } from '../utils/storage';
 
-const Introduction: React.FC = () => {
+const Introduction = () => {
   const navigate = useNavigate();
+  const progress = loadProgress();
 
-  const clearSavedProgress = () => {
-    localStorage.removeItem('aq50-progress');
+  const restart = () => {
+    clearProgress();
     navigate('/test');
   };
 
-  const hasSavedProgress = localStorage.getItem('aq50-progress') !== null;
-
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">AQ-50 Test</h1>
-      
-      <div className="space-y-4">
-        <p className="text-gray-700 dark:text-gray-300">
-          Willkommen zum AQ-50 Test. Dieser Test besteht aus 50 Fragen und dient zur Erfassung des Autismus-Spektrum-Quotienten.
-        </p>
-        
-        <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-md">
-          <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">Wichtige Hinweise:</h2>
-          <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-            <li>Der Test dauert etwa 10-15 Minuten</li>
-            <li>Bitte beantworten Sie alle Fragen</li>
-            <li>Es gibt keine richtigen oder falschen Antworten</li>
-            <li>Wählen Sie die Antwort, die am besten zu Ihnen passt</li>
-            <li>Ihr Fortschritt wird automatisch gespeichert</li>
-            <li>Verwenden Sie die Tasten 1-4 für schnelle Navigation</li>
-          </ul>
-        </div>
-
-        <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-md">
-          <p className="text-sm text-gray-700 dark:text-gray-300">
-            Hinweis: Dieser Test ist nur ein Screening-Instrument und ersetzt keine professionelle Diagnose. 
-            Bei Fragen oder Bedenken wenden Sie sich bitte an einen qualifizierten Facharzt oder Psychologen.
+    <div className="landing">
+      <section className="hero" aria-labelledby="page-title">
+        <div className="hero-copy">
+          <p className="eyebrow">Wissenschaftlich fundierte Selbsteinschätzung</p>
+          <h1 id="page-title">Autistische Merkmale besser einordnen.</h1>
+          <p className="hero-lead">
+            Der AQ-50 erfasst autistische Merkmale bei Erwachsenen ab 16 Jahren. Kostenlos, anonym und direkt im Browser ausgewertet.
           </p>
-        </div>
-
-        {hasSavedProgress && (
-          <div className="bg-green-50 dark:bg-green-900 p-4 rounded-md">
-            <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-              Es wurde ein gespeicherter Fortschritt gefunden. Möchten Sie fortfahren oder neu beginnen?
-            </p>
-            <div className="flex gap-2">
-              <button
-                onClick={() => navigate('/test')}
-                className="flex-1 bg-green-600 dark:bg-green-700 text-white py-2 px-4 rounded-md hover:bg-green-700 dark:hover:bg-green-600 transition-colors text-sm"
-              >
-                Fortfahren
-              </button>
-              <button
-                onClick={clearSavedProgress}
-                className="flex-1 bg-gray-600 dark:bg-gray-700 text-white py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors text-sm"
-              >
-                Neu beginnen
-              </button>
-            </div>
+          <div className="hero-actions">
+            <button className="button button-primary button-large" onClick={() => navigate('/test')}>
+              {progress ? 'Test fortsetzen' : 'Selbsttest starten'} <span aria-hidden="true">→</span>
+            </button>
+            {progress && <button className="button button-secondary button-large" onClick={restart}>Neu beginnen</button>}
           </div>
-        )}
+          <div className="trust-row" aria-label="Eigenschaften des Tests">
+            <span><b>50</b> Aussagen</span><span><b>10–15</b> Minuten</span><span><b>100 %</b> lokal</span>
+          </div>
+        </div>
+        <aside className="hero-panel" aria-label="Wichtige Einordnung">
+          <span className="panel-icon" aria-hidden="true">◇</span>
+          <h2>Ein Screening, keine Diagnose</h2>
+          <p>Das Ergebnis beschreibt Selbstauskünfte. Es kann eine fachliche Diagnostik weder bestätigen noch ausschließen.</p>
+          <ul className="check-list">
+            <li>Keine Anmeldung</li>
+            <li>Keine Datenübertragung</li>
+            <li>Offizieller 4-stufiger AQ-Schlüssel</li>
+          </ul>
+        </aside>
+      </section>
 
-        {!hasSavedProgress && (
-          <button
-            onClick={() => navigate('/test')}
-            className="w-full bg-blue-600 dark:bg-blue-700 text-white py-3 px-6 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
-          >
-            Test starten
-          </button>
-        )}
-      </div>
+      <section className="info-grid" aria-label="So funktioniert der Test">
+        <article><span className="step">01</span><h2>Intuitiv antworten</h2><p>Es gibt kein Richtig oder Falsch. Wählen Sie, was im Allgemeinen am ehesten passt.</p></article>
+        <article><span className="step">02</span><h2>Lokal fortsetzen</h2><p>Ihr Fortschritt bleibt ausschließlich in diesem Browser und kann jederzeit gelöscht werden.</p></article>
+        <article><span className="step">03</span><h2>Besonnen einordnen</h2><p>Sie erhalten Gesamtwert und Subskalen samt Quellen, Grenzen und optionalem PDF.</p></article>
+      </section>
+
+      <section className="science card" id="wissenschaft">
+        <div>
+          <p className="eyebrow">Herkunft & Evidenz</p>
+          <h2>Was hinter dem AQ-50 steht</h2>
+          <p>Der Autism-Spectrum Quotient wurde 2001 von Baron-Cohen und Kolleg:innen als Selbstbeurteilungsinstrument entwickelt. Diese Umsetzung verwendet die deutsche 50-Item-Fassung des Autism Research Centre und den binären Original-Auswertungsschlüssel.</p>
+          <p className="fine-print">Die deutsche Validierungsstudie von Freitag et al. untersuchte zudem den AQ und leitete daraus die Kurzfassung AQ-k ab. Sie ersetzt keine individuelle klinische Beurteilung. Angaben ohne Gewähr.</p>
+        </div>
+        <div className="source-list">
+          <a href="https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf" target="_blank" rel="noreferrer"><b>Offizieller Fragebogen</b><span>Deutsche AQ-50-Fassung (PDF) ↗</span></a>
+          <a href="https://doi.org/10.1023/A:1005653411471" target="_blank" rel="noreferrer"><b>Originalstudie, 2001</b><span>Baron-Cohen et al., JADD ↗</span></a>
+          <a href="https://doi.org/10.1026/1616-3443.36.4.280" target="_blank" rel="noreferrer"><b>Deutsche Evaluation, 2007</b><span>Freitag et al., ZKPP ↗</span></a>
+        </div>
+      </section>
     </div>
   );
 };
 
-export default Introduction; 
+export default Introduction;

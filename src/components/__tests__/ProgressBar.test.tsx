@@ -28,7 +28,7 @@ describe('ProgressBar Component', () => {
   it('has correct progress bar width', () => {
     const { container } = render(<ProgressBar current={25} total={50} />);
     
-    const progressBar = container.querySelector('.bg-blue-600');
+    const progressBar = container.querySelector('.progress-track span');
     expect(progressBar).toHaveStyle({ width: '50%' });
   });
 

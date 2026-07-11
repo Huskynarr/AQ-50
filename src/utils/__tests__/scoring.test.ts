@@ -70,7 +70,7 @@ describe('Scoring Utility', () => {
       
       const highResult = calculateDetailedScore(highScoreAnswers);
       expect(highResult.totalScore).toBeGreaterThanOrEqual(32);
-      expect(highResult.interpretation).toContain('professionelle Beratung');
+      expect(highResult.interpretation).toContain('Schwellenwert von 32');
 
       // Test low score - answer in ways that don't score points
       const lowScoreAnswers: { [key: number]: number } = {};
@@ -80,7 +80,7 @@ describe('Scoring Utility', () => {
       });
       
       const lowResult = calculateDetailedScore(lowScoreAnswers);
-      expect(lowResult.interpretation).toContain('Normaler AQ-Score');
+      expect(lowResult.interpretation).toContain('Autismus nicht ausschließen');
     });
 
     it('should handle missing answers gracefully', () => {

@@ -1,31 +1,26 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Test from './components/Test';
+import { HashRouter, Link, Route, Routes } from 'react-router-dom';
 import Introduction from './components/Introduction';
+import Test from './components/Test';
 import Results from './components/Results';
 import Footer from './components/Footer';
 import ThemeToggle from './components/ThemeToggle';
 import { ThemeProvider } from './contexts/ThemeContext';
 
-function App() {
-  return (
-    <ThemeProvider>
-      <Router basename="/AQ-50">
-        <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors">
-          <ThemeToggle />
-          <main className="flex-grow p-8">
-            <div className="max-w-2xl mx-auto">
-              <Routes>
-                <Route path="/" element={<Introduction />} />
-                <Route path="/test" element={<Test />} />
-                <Route path="/results" element={<Results />} />
-              </Routes>
-            </div>
-          </main>
-          <Footer />
-        </div>
-      </Router>
-    </ThemeProvider>
-  );
-}
+const App = () => (
+  <ThemeProvider>
+    <HashRouter>
+      <div className="app-shell">
+        <header className="site-header">
+          <Link className="brand" to="/" aria-label="AQ-50 Startseite"><span>AQ</span><b>50</b></Link>
+          <nav aria-label="Hauptnavigation"><a href="/#wissenschaft">Wissenschaft</a><a href="https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf" target="_blank" rel="noreferrer">Originalfragebogen</a><ThemeToggle /></nav>
+        </header>
+        <main className="site-main">
+          <Routes><Route path="/" element={<Introduction />} /><Route path="/test" element={<Test />} /><Route path="/results" element={<Results />} /><Route path="*" element={<Introduction />} /></Routes>
+        </main>
+        <Footer />
+      </div>
+    </HashRouter>
+  </ThemeProvider>
+);
 
-export default App; 
+export default App;

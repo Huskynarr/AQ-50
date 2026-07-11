@@ -1,24 +1,24 @@
-import React from 'react';
-
 interface ProgressBarProps {
   current: number;
   total: number;
+  answered?: number;
   className?: string;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ current, total, className = '' }) => {
-  const percentage = Math.round((current / total) * 100);
+const ProgressBar = ({ current, total, answered = current - 1, className = '' }: ProgressBarProps) => {
+  const safeTotal = Math.max(total, 1);
+  const percentage = Math.min(100, Math.max(0, Math.round((current / safeTotal) * 100)));
 
   return (
-    <div className={`w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-6 ${className}`}>
-      <div 
-        className="bg-blue-600 dark:bg-blue-500 h-3 rounded-full transition-all duration-300 ease-out"
-        style={{ width: `${percentage}%` }}
-      >
+    <div className={`progress ${className}`}>
+      <div className="progress-label">
+        <span>Frage {current} von {total}</span>
+        <span>{answered} beantwortet</span>
       </div>
-      <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
-        Frage {current} von {total} ({percentage}%)
+      <div className="progress-track" role="progressbar" aria-label="Testfortschritt" aria-valuemin={0} aria-valuemax={total} aria-valuenow={current}>
+        <span style={{ width: `${percentage}%` }} />
       </div>
+      <span className="sr-only">Frage {current} von {total} ({percentage}%)</span>
     </div>
   );
 };

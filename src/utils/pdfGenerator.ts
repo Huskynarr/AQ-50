@@ -63,23 +63,18 @@ export const generatePDF = async (score: number, answers: Answer[], detailedScor
       yPosition += interpretationHeight + 10;
     }
 
-    // Bewertungsskala
-    checkPageBreak(60);
+    // Wissenschaftliche Einordnung
+    checkPageBreak(55);
     doc.setFontSize(14);
-    doc.text('Bewertungsskala:', margin, yPosition);
+    doc.text('Wissenschaftliche Einordnung:', margin, yPosition);
     yPosition += 10;
-    
-    doc.setFontSize(10);
     const scaleTexts = [
-      '0-21 Punkte: Normaler Bereich - Keine auffälligen autistischen Züge',
-      '22-25 Punkte: Grenzbereich - Einige autistische Züge können vorhanden sein',
-      '26-31 Punkte: Erhöhter Bereich - Möglicherweise liegen autistische Züge vor',
-      '32-50 Punkte: Hoher Bereich - Professionelle Beratung wird empfohlen'
+      'Die Originalstudie schlug 32 oder mehr Punkte als nützlichen Schwellenwert für klinisch bedeutsame autistische Merkmale vor.',
+      'Ein AQ-Wert ist keine Diagnose und kann Autismus weder bestätigen noch ausschließen. Die Vergleichswerte stammen aus den Studiengruppen von 2001.'
     ];
-    
     scaleTexts.forEach(text => {
       const textHeight = addWrappedText(text, margin, yPosition, 170, 10);
-      yPosition += textHeight + 3;
+      yPosition += textHeight + 4;
     });
     yPosition += 10;
 
@@ -111,7 +106,7 @@ export const generatePDF = async (score: number, answers: Answer[], detailedScor
     yPosition += 10;
     
     doc.setFontSize(10);
-    const disclaimerText = 'Dieser Test ist nur ein Screening-Instrument und ersetzt keine professionelle Diagnose. Bei Fragen oder Bedenken wenden Sie sich bitte an einen qualifizierten Facharzt oder Psychologen.';
+    const disclaimerText = 'Dieser Selbsttest ist ein Screening-Instrument und ersetzt keine professionelle Diagnose. Angaben ohne Gewähr. Bei Fragen oder Leidensdruck wenden Sie sich bitte an qualifiziertes Fachpersonal.';
     const disclaimerHeight = addWrappedText(disclaimerText, margin, yPosition, 170, 10);
     yPosition += disclaimerHeight + 15;
 
@@ -125,15 +120,30 @@ export const generatePDF = async (score: number, answers: Answer[], detailedScor
     
     // Antworten
     answers.forEach((answer, index) => {
-      checkPageBreak(25);
-      
+      const questionLines = doc.splitTextToSize(`${index + 1}. ${answer.question}`, 170) as string[];
+      checkPageBreak(questionLines.length * 4.5 + 14);
       doc.setFontSize(10);
-      doc.text(`${index + 1}. ${answer.question}`, margin, yPosition);
-      yPosition += 6;
+      doc.text(questionLines, margin, yPosition);
+      yPosition += questionLines.length * 4.5 + 2;
       
       doc.setFontSize(9);
       doc.text(`Antwort: ${answer.answer}`, margin + 5, yPosition);
-      yPosition += 10;
+      yPosition += 9;
+    });
+
+    doc.addPage();
+    yPosition = 20;
+    doc.setFontSize(14);
+    doc.text('Quellen:', margin, yPosition);
+    yPosition += 10;
+    const sources = [
+      'Baron-Cohen S. et al. (2001). The Autism-Spectrum Quotient (AQ). Journal of Autism and Developmental Disorders, 31, 5-17. DOI: 10.1023/A:1005653411471',
+      'Deutsche AQ-50-Fassung: Autism Research Centre, https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf',
+      'Freitag C. M. et al. (2007). Evaluation der deutschen Version des Autismus-Spektrum-Quotienten (AQ) - die Kurzversion AQ-k. DOI: 10.1026/1616-3443.36.4.280'
+    ];
+    sources.forEach(source => {
+      const height = addWrappedText(source, margin, yPosition, 170, 10);
+      yPosition += height + 6;
     });
 
     // PDF speichern

@@ -1,152 +1,107 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from './ProgressBar';
 import { questions, getAnswerLabel } from '../data/questions';
 import { calculateDetailedScore } from '../utils/scoring';
+import { clearProgress, loadProgress, saveProgress, saveResult, type Answers } from '../utils/storage';
 
-const Test: React.FC = () => {
+const Test = () => {
   const navigate = useNavigate();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<{ [key: number]: number }>({});
+  const [currentQuestion, setCurrentQuestion] = useState(() => loadProgress()?.currentQuestion ?? 0);
+  const [answers, setAnswers] = useState<Answers>(() => loadProgress()?.answers ?? {});
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const question = questions[currentQuestion];
+  const answeredCount = Object.keys(answers).length;
 
-  // Load saved progress on component mount
   useEffect(() => {
-    const savedProgress = localStorage.getItem('aq50-progress');
-    if (savedProgress) {
-      const { currentQuestion: savedQuestion, answers: savedAnswers } = JSON.parse(savedProgress);
-      setCurrentQuestion(savedQuestion);
-      setAnswers(savedAnswers);
-    }
-  }, []);
+    if (answeredCount > 0) saveProgress({ currentQuestion, answers });
+  }, [answeredCount, answers, currentQuestion]);
 
-  // Save progress to localStorage whenever answers change
   useEffect(() => {
-    if (Object.keys(answers).length > 0) {
-      localStorage.setItem('aq50-progress', JSON.stringify({
-        currentQuestion,
-        answers
-      }));
-    }
-  }, [currentQuestion, answers]);
+    headingRef.current?.focus();
+  }, [currentQuestion]);
 
-  const goToPreviousQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(prev => prev - 1);
-    }
-  };
-
-  const goToNextQuestion = () => {
-    if (currentQuestion < questions.length - 1 && answers[questions[currentQuestion].id] !== undefined) {
-      setCurrentQuestion(prev => prev + 1);
-    }
-  };
+  const finish = useCallback((completedAnswers: Answers) => {
+    const score = calculateDetailedScore(completedAnswers).totalScore;
+    clearProgress();
+    saveResult({ score, answers: completedAnswers });
+    navigate('/results', { state: { score, answers: completedAnswers } });
+  }, [navigate]);
 
   const handleAnswer = useCallback((value: number) => {
-    const questionId = questions[currentQuestion].id;
-    const updatedAnswers = { ...answers, [questionId]: value };
+    const updatedAnswers = { ...answers, [question.id]: value };
     setAnswers(updatedAnswers);
 
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(prev => prev + 1);
-    } else {
-      // Score über die zentrale Auswertungslogik berechnen (einzige Quelle der Wahrheit)
-      const score = calculateDetailedScore(updatedAnswers).totalScore;
-      // Gespeicherten Fortschritt nach Abschluss entfernen
-      localStorage.removeItem('aq50-progress');
-      navigate('/results', { state: { score, answers: updatedAnswers } });
-    }
-  }, [answers, currentQuestion, navigate]);
+    window.setTimeout(() => {
+      if (currentQuestion === questions.length - 1) finish(updatedAnswers);
+      else setCurrentQuestion(previous => previous + 1);
+    }, 140);
+  }, [answers, currentQuestion, finish, question.id]);
 
-  // Keyboard navigation
   useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key >= '1' && event.key <= '4') {
-        const value = parseInt(event.key) - 1;
-        handleAnswer(value);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.matches('input, textarea, select, [contenteditable="true"]')) return;
+      if (/^[1-4]$/.test(event.key)) handleAnswer(Number(event.key) - 1);
+      if (event.key === 'ArrowLeft' && currentQuestion > 0) setCurrentQuestion(value => value - 1);
+      if (event.key === 'ArrowRight' && answers[question.id] !== undefined && currentQuestion < questions.length - 1) {
+        setCurrentQuestion(value => value + 1);
       }
     };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [handleAnswer]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [answers, currentQuestion, handleAnswer, question.id]);
 
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-4 sm:p-8 rounded-lg shadow-md">
-      <ProgressBar current={currentQuestion + 1} total={questions.length} />
+    <section className="card test-card" aria-labelledby="question-heading">
+      <div className="test-topline">
+        <button className="text-button" onClick={() => navigate('/')} aria-label="Test verlassen und zur Startseite">
+          <span aria-hidden="true">←</span> Test verlassen
+        </button>
+        <span className="autosave"><span aria-hidden="true">✓</span> lokal gespeichert</span>
+      </div>
 
-      <div 
-        role="main"
-        aria-live="polite"
-        aria-label={`Frage ${currentQuestion + 1} von ${questions.length}`}
-      >
-        <h2 className="text-lg sm:text-xl font-semibold mb-6 text-gray-900 dark:text-white">
-          {questions[currentQuestion].text}
-        </h2>
+      <ProgressBar current={currentQuestion + 1} total={questions.length} answered={answeredCount} />
 
-        <fieldset className="space-y-3">
-          <legend className="sr-only">
-            Antwortmöglichkeiten für Frage {currentQuestion + 1}
-          </legend>
-          
-          <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-            Tipp: Verwenden Sie die Tasten 1-4 für schnelle Antworten
-          </div>
-          
-          {[0, 1, 2, 3].map((value) => (
-            <label
-              key={value}
-              className={`block w-full p-3 text-left border rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 focus-within:bg-blue-50 dark:focus-within:bg-blue-900 focus-within:border-blue-500 transition-colors cursor-pointer text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 ${
-                answers[questions[currentQuestion].id] === value ? 'bg-blue-100 dark:bg-blue-900 border-blue-500' : ''
-              }`}
-            >
-              <input
-                type="radio"
-                name={`question-${questions[currentQuestion].id}`}
-                value={value}
-                checked={answers[questions[currentQuestion].id] === value}
-                onChange={() => handleAnswer(value)}
-                className="sr-only"
-                aria-describedby={`answer-${value}-description`}
-              />
-              <div className="flex items-center">
-                <span className="flex-shrink-0 text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-2 py-1 rounded mr-3">
-                  {value + 1}
-                </span>
-                <span className="flex-1" id={`answer-${value}-description`}>
-                  {getAnswerLabel(value)}
-                </span>
-                {answers[questions[currentQuestion].id] === value && (
-                  <span className="flex-shrink-0 text-blue-600 dark:text-blue-400 ml-2" aria-hidden="true">
-                    ✓
-                  </span>
-                )}
-              </div>
+      <div className="question-block">
+        <p className="eyebrow">Frage {currentQuestion + 1}</p>
+        <h1 id="question-heading" ref={headingRef} tabIndex={-1}>{question.text}</h1>
+        <p className="question-hint">Wählen Sie die Antwort, die am ehesten auf Sie zutrifft.</p>
+      </div>
+
+      <fieldset className="answer-list">
+        <legend className="sr-only">Antwortmöglichkeiten</legend>
+        {[0, 1, 2, 3].map(value => {
+          const selected = answers[question.id] === value;
+          return (
+            <label key={value} className={`answer-option ${selected ? 'is-selected' : ''}`}>
+              <input type="radio" name={`question-${question.id}`} checked={selected} onChange={() => handleAnswer(value)} />
+              <span className="key-hint" aria-hidden="true">{value + 1}</span>
+              <span>{getAnswerLabel(value)}</span>
+              <span className="check" aria-hidden="true">✓</span>
             </label>
-          ))}
-        </fieldset>
+          );
+        })}
+      </fieldset>
 
-        <div className="flex flex-col sm:flex-row justify-between gap-4 mt-8">
-          <button
-            onClick={goToPreviousQuestion}
-            disabled={currentQuestion === 0}
-            className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            aria-label="Zur vorherigen Frage"
-          >
-            ← Zurück
+      <div className="test-actions">
+        <button className="button button-secondary" onClick={() => setCurrentQuestion(value => value - 1)} disabled={currentQuestion === 0}>
+          ← Zurück
+        </button>
+        {currentQuestion === questions.length - 1 ? (
+          <button className="button button-primary" onClick={() => finish(answers)} disabled={answers[question.id] === undefined}>
+            Ergebnis anzeigen
           </button>
-          
-          <button
-            onClick={goToNextQuestion}
-            disabled={currentQuestion === questions.length - 1 || answers[questions[currentQuestion].id] === undefined}
-            className="px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            aria-label="Zur nächsten Frage"
-          >
+        ) : (
+          <button className="button button-primary" onClick={() => setCurrentQuestion(value => value + 1)} disabled={answers[question.id] === undefined}>
             Weiter →
           </button>
-        </div>
+        )}
       </div>
-    </div>
+      <p className="keyboard-note">Tastatur: <kbd>1</kbd>–<kbd>4</kbd> antworten · <kbd>←</kbd><kbd>→</kbd> navigieren</p>
+    </section>
   );
 };
 
-export default Test; 
+export default Test;

@@ -1,2 +1,7 @@
 # Alle Inhalte des Ordners node_modules ignorieren
 /node_modules/
+/coverage/
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+.DS_Store

@@ -1,202 +1,51 @@
-# AQ-50 Online Test
+# AQ-50 Online-Selbsttest
 
-Ein professioneller webbasierter Test zur Erfassung des Autismus-Spektrum-Quotienten (AQ-50) basierend auf dem offiziellen Fragebogen des Autism Research Centre.
+Eine datensparsame, barrierearme Web-Umsetzung des Autism-Spectrum Quotient (AQ-50) für Erwachsene ab 16 Jahren. Die Anwendung nutzt die offizielle deutsche 50-Item-Fassung und den binären Original-Auswertungsschlüssel.
 
-## 🎯 Features
+> Der AQ-50 ist ein Selbstbeurteilungs- und Screening-Instrument, keine Diagnose. Das Ergebnis kann Autismus weder bestätigen noch ausschließen. Angaben ohne Gewähr.
 
-### ✨ Benutzerfreundlichkeit
-- **Dark Mode Support** - Automatische Systemerkennung + manueller Toggle
-- **Responsive Design** - Optimiert für Desktop, Tablet und Mobile
-- **Keyboard Navigation** - Schnelle Antworten mit Tasten 1-4
-- **Auto-Save Funktion** - Automatische Zwischenspeicherung des Fortschritts
-- **Visueller Fortschrittsbalken** - Echtzeit-Anzeige des Testfortschritts
-- **Navigation Controls** - Vor/Zurück-Buttons für flexible Testdurchführung
+## Wissenschaftliche Grundlage
 
-### 📊 Erweiterte Auswertung
-- **Detaillierte Subskalen-Analyse** - 5 Kategorien mit individueller Bewertung:
-  - Soziale Fertigkeiten
-  - Aufmerksamkeitswechsel  
-  - Aufmerksamkeit für Details
-  - Kommunikation
-  - Vorstellungskraft
-- **Normwert-Vergleiche** - Vergleich mit Referenzpopulationen
-- **Professionelle Interpretation** - Evidenzbasierte Bewertungsrichtlinien
-- **Visuelle Datenrepräsentation** - Fortschrittsbalken und Prozentanzeigen
+- **Fragebogen:** [Autism Research Centre – AQ Adult German (PDF)](https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf)
+- **Entwicklung und Originalstudie:** Baron-Cohen, S., Wheelwright, S., Skinner, R., Martin, J. & Clubley, E. (2001). *The Autism-Spectrum Quotient (AQ): Evidence from Asperger Syndrome/High-Functioning Autism, Males and Females, Scientists and Mathematicians.* Journal of Autism and Developmental Disorders, 31, 5–17. [doi:10.1023/A:1005653411471](https://doi.org/10.1023/A:1005653411471)
+- **Deutsche Evaluation und Ableitung des AQ-k:** Freitag, C. M. et al. (2007). *Evaluation der deutschen Version des Autismus-Spektrum-Quotienten (AQ) – die Kurzversion AQ-k.* Zeitschrift für Klinische Psychologie und Psychotherapie, 36(4), 280–289. [doi:10.1026/1616-3443.36.4.280](https://doi.org/10.1026/1616-3443.36.4.280)
 
-### 📄 PDF-Export
-- **Umfassende Berichte** - Detaillierte Auswertung mit allen Subskalen
-- **Professionelles Layout** - Druckoptimierte Formatierung
-- **Vollständige Antwortdokumentation** - Alle Fragen und Antworten im Detail
-- **Interpretationshilfen** - Bewertungsskalen und Referenzwerte
+Die Originalstudie schlug 32 Punkte als nützlichen Schwellenwert für klinisch bedeutsame autistische Merkmale vor. In ihrer Stichprobe erreichten 80 % der 58 Erwachsenen der damaligen AS/HFA-Gruppe und 2 % der 174 Kontrollpersonen mindestens 32 Punkte. Das ist keine individuelle Diagnosewahrscheinlichkeit. Bezeichnungen und Vergleichswerte werden in der App als historischer Studienkontext kenntlich gemacht.
 
-### ♿ Barrierefreiheit
-- **ARIA-Labels** - Vollständige Screen Reader Unterstützung
-- **Keyboard-Only Navigation** - Komplette Bedienung ohne Maus möglich
-- **Hohe Kontraste** - WCAG 2.1 AA konforme Farbgebung
-- **Focus Management** - Klare visuelle Fokusindikatoren
+## Funktionen
 
-### 🧪 Qualitätssicherung
-- **Unit Tests** - Umfassende Testabdeckung
-- **CI/CD Pipeline** - Automatisierte Tests und Deployment
-- **TypeScript** - Typsichere Entwicklung
-- **Performance Optimiert** - Schnelle Ladezeiten und flüssige Interaktionen
+- 50 offizielle deutsche Aussagen und offizieller Auswertungsschlüssel
+- Gesamtwert und fünf deskriptive Subskalen
+- Quellen und methodische Grenzen direkt in der Auswertung
+- lokales Autosave und wiederherstellbares Ergebnis ohne Serverübertragung
+- Tastaturbedienung, Fokusmanagement, Dark Mode und Reduced-Motion-Unterstützung
+- PDF-Bericht mit Antworten, Quellen und Disclaimer
+- responsive Oberfläche ohne externes UI-Framework
 
-## 🚀 Technologien
+## Entwicklung
 
-- **React.js 18** - Moderne UI-Bibliothek
-- **TypeScript** - Typsichere Entwicklung
-- **Vite** - Schnelles Build-Tool
-- **Tailwind CSS** - Utility-First CSS Framework
-- **Vitest** - Modernes Testing Framework
-- **jsPDF + html2canvas** - PDF-Generierung
-- **GitHub Actions** - CI/CD Pipeline
+Voraussetzung: Node.js 22 oder neuer.
 
-## 📦 Installation
-
-1. Repository klonen:
 ```bash
-git clone git@github.com:Huskynarr/AQ-50.git
-cd AQ-50
-```
-
-2. Abhängigkeiten installieren:
-```bash
-npm install
-```
-
-3. Entwicklungsserver starten:
-```bash
+npm ci
 npm run dev
 ```
 
-## 🛠️ Verfügbare Scripts
+Qualitätsprüfung:
 
 ```bash
-# Entwicklung
-npm run dev          # Entwicklungsserver starten
-npm run build        # Produktions-Build erstellen
-npm run preview      # Build-Vorschau lokal testen
-
-# Testing
-npm run test         # Tests im Watch-Modus
-npm run test:run     # Tests einmalig ausführen
-npm run test:ui      # Test-UI öffnen
-npm run test:coverage # Test-Coverage generieren
-
-# Code-Qualität
-npm run lint         # ESLint ausführen
-
-# Deployment
-npm run deploy       # Auf GitHub Pages deployen
-```
-
-## 🚀 Deployment
-
-### GitHub Pages (Automatisch)
-Das Projekt wird automatisch auf GitHub Pages deployed bei:
-- Push auf `main` Branch
-- Erstellung eines neuen Releases
-
-### Manuelles Deployment
-```bash
+npm run lint
+npm run test:run
 npm run build
-npm run deploy
+npm audit
 ```
 
-## 🧪 Testing
+Der Stack verwendet React 19, React Router 7, Vite 8, TypeScript 5.9, ESLint 10 und Vitest 4. Das Deployment nach GitHub Pages erfolgt nach erfolgreichen Lint-, Test- und Build-Schritten über einen einzelnen GitHub-Actions-Workflow.
 
-Das Projekt verwendet Vitest für Unit Tests:
+## Datenschutz
 
-```bash
-# Tests ausführen
-npm run test
+Fortschritt, Ergebnis und Theme-Einstellung werden ausschließlich im `localStorage` des Browsers gespeichert. Die Anwendung besitzt kein Backend, bindet keine externen Schriftarten ein und überträgt keine Antworten. Erst das bewusste Öffnen eines externen Quellenlinks stellt eine Verbindung zu dessen Anbieter her.
 
-# Tests mit Coverage
-npm run test:coverage
+## Lizenz
 
-# Test UI öffnen
-npm run test:ui
-```
-
-## 📊 Scoring-System
-
-Der AQ-50 Test verwendet ein wissenschaftlich validiertes Bewertungssystem:
-
-- **0-21 Punkte**: Normaler Bereich
-- **22-25 Punkte**: Grenzbereich  
-- **26-31 Punkte**: Erhöhter Bereich
-- **32-50 Punkte**: Hoher Bereich (professionelle Beratung empfohlen)
-
-### Subskalen
-1. **Soziale Fertigkeiten** (10 Fragen)
-2. **Aufmerksamkeitswechsel** (10 Fragen)
-3. **Aufmerksamkeit für Details** (10 Fragen)
-4. **Kommunikation** (10 Fragen)
-5. **Vorstellungskraft** (10 Fragen)
-
-## 🔧 Konfiguration
-
-### Vite Konfiguration
-Die Anwendung ist für GitHub Pages optimiert konfiguriert.
-
-### Tailwind CSS
-Dark Mode ist über die `class` Strategie aktiviert.
-
-### TypeScript
-Strict Mode ist aktiviert für maximale Typsicherheit.
-
-## 🤝 Contributing
-
-1. Fork des Repositories erstellen
-2. Feature Branch erstellen (`git checkout -b feature/AmazingFeature`)
-3. Änderungen committen (`git commit -m 'Add some AmazingFeature'`)
-4. Branch pushen (`git push origin feature/AmazingFeature`)
-5. Pull Request erstellen
-
-## 📝 Changelog
-
-### v2.0.0 (2025-01-26)
-- ✨ Dark Mode Support mit System-Präferenz-Erkennung
-- ✨ Erweiterte Subskalen-Analyse mit 5 Kategorien
-- ✨ Keyboard Navigation (Tasten 1-4)
-- ✨ Auto-Save Funktionalität
-- ✨ Verbesserte PDF-Exports mit detaillierter Auswertung
-- ✨ Responsive Design Verbesserungen
-- ✨ Accessibility Enhancements
-- ✨ Unit Testing Suite
-- ✨ CI/CD Pipeline
-- ✨ Navigation Controls (Vor/Zurück)
-
-### v1.2.0 (2025-01-26)
-- ✨ PDF-Export Funktionalität
-- 🐛 Verschiedene Bugfixes
-
-### v1.0.0 (Initial Release)
-- ✨ Grundlegende AQ-50 Test Funktionalität
-- ✨ 50 Fragen basierend auf offiziellem Fragebogen
-- ✨ Einfache Auswertung
-
-## ⚠️ Wichtiger Hinweis
-
-Dieser Test ist nur ein Screening-Instrument und ersetzt keine professionelle Diagnose. Bei Fragen oder Bedenken wenden Sie sich bitte an einen qualifizierten Facharzt oder Psychologen.
-
-## 📄 Lizenz
-
-Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe [LICENSE](LICENSE) Datei für Details.
-
-## 🙏 Danksagungen
-
-- [Autism Research Centre](https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf) für den offiziellen AQ-50 Fragebogen
-- React.js Community für das großartige Framework
-- Tailwind CSS Team für das utility-first CSS Framework
-
-## 📞 Support
-
-Bei Fragen oder Problemen:
-- GitHub Issues erstellen
-- [Website](https://huskynarr.de) besuchen
-- [Live Demo](https://huskynarr.github.io/AQ-50) testen
-
----
-
-**Made with ❤️ by [Huskynarr](https://huskynarr.de)** 
+Quellcode: [MIT](LICENSE). Rechte und Nutzungsbedingungen des Fragebogens verbleiben bei dessen Autor:innen beziehungsweise Herausgebern.
