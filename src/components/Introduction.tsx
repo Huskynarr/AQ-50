@@ -1,38 +1,39 @@
 import { useNavigate } from 'react-router-dom';
-import { clearProgress, loadProgress } from '../utils/storage';
+import { loadProgress } from '../utils/storage';
 
 const Introduction = () => {
   const navigate = useNavigate();
   const progress = loadProgress();
-
-  const restart = () => {
-    clearProgress();
-    navigate('/test');
+  const showComparison = () => {
+    const comparison = document.getElementById('testvergleich');
+    comparison?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    comparison?.focus({ preventScroll: true });
   };
 
   return (
     <div className="landing">
       <section className="hero" aria-labelledby="page-title">
         <div className="hero-copy">
-          <p className="eyebrow">Zwei wissenschaftlich belegte Varianten</p>
-          <h1 id="page-title">Welcher AQ-Test passt zu Ihnen?</h1>
+          <p className="eyebrow">Autismus-Selbsttest für Erwachsene</p>
+          <h1 id="page-title">Autistische Merkmale besser verstehen.</h1>
           <p className="hero-lead">
-            Nehmen Sie sich einen ruhigen Moment für eine erste, wissenschaftlich fundierte Selbsteinschätzung. Kostenlos, anonym und ohne Weitergabe Ihrer Antworten.
+            Der Autismus-Spektrum-Quotient (AQ) hilft Ihnen, eigene Denk-, Wahrnehmungs- und Verhaltensmuster einzuordnen. Wissenschaftlich basiert, anonym und ohne Anmeldung – als Orientierung, nicht als Diagnose.
           </p>
           <div className="hero-actions">
             <button className="button button-primary button-large" onClick={() => navigate('/aq-k')}>Kurztest starten <span aria-hidden="true">→</span></button>
-            <button className="button button-secondary button-large" onClick={() => document.getElementById('testvergleich')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Tests vergleichen <span aria-hidden="true">↓</span></button>
+            <button className="button button-secondary button-large" onClick={showComparison}>Tests vergleichen <span aria-hidden="true">↓</span></button>
           </div>
           <div className="trust-row" aria-label="Eigenschaften des Tests">
             <span><b>ab 16</b> Jahren</span><span><b>7–10</b> Minuten</span><span><b>100 %</b> lokal</span>
           </div>
         </div>
+        {/* KI-generiertes Projekt-Asset; Herkunft und Prompt: /ASSET_PROVENANCE.md */}
         <figure className="hero-visual"><img src="/AQ-50/images/aq-welcome-illustration.jpg" alt="Ruhige Illustration einer Person mit Tasse und Notizbuch"/><figcaption><b>In Ihrem Tempo.</b><span>Sie können jederzeit pausieren und später weitermachen.</span></figcaption></figure>
       </section>
 
       <section className="variant-grid" id="testvergleich" aria-label="Testvarianten vergleichen" tabIndex={-1}>
-        <article className="card recommended"><span className="result-badge">Empfohlen für den Einstieg</span><h2>Kurzer Selbsttest <small>AQ-k</small></h2><p>33 gezielt ausgewählte Aussagen, etwa 7–10 Minuten. Eine gute Wahl, wenn Sie sich zunächst unkompliziert orientieren möchten.</p><ul><li>In Deutschland wissenschaftlich untersucht</li><li>Kürzer und weniger belastend</li><li>Klare Einordnung des Ergebnisses</li></ul><button className="button button-primary" onClick={() => navigate('/aq-k')}>Kurztest ansehen →</button></article>
-        <article className="card"><span className="result-badge">Mehr Zeit und Details</span><h2>Ausführlicher Selbsttest <small>AQ-50</small></h2><p>50 Aussagen, etwa 10–15 Minuten. Sinnvoll, wenn Sie mehr Antwortbereiche betrachten oder mit der ursprünglichen Studie vergleichen möchten.</p><ul><li>Ausführlichere Selbsteinschätzung</li><li>Fünf beschreibende Bereiche</li><li>Vergleich mit der Studie von 2001</li></ul><button className="button button-secondary" onClick={() => navigate('/test')}>{progress ? 'Ausführlichen Test fortsetzen →' : 'Ausführlichen Test starten →'}</button>{progress && <button className="text-button" onClick={restart}>Gespeicherten Fortschritt löschen</button>}</article>
+        <article className="card recommended"><span className="result-badge">Empfohlen für den Einstieg</span><h2>Kurzer Selbsttest <small>AQ-k</small></h2><p>33 gezielt ausgewählte Aussagen, etwa 7–10 Minuten. Eine gute Wahl, wenn Sie sich zunächst unkompliziert orientieren möchten.</p><ul><li>In Deutschland wissenschaftlich untersucht</li><li>Kürzer und weniger belastend</li><li>Klare Einordnung des Ergebnisses</li></ul><div className="variant-actions"><button className="button button-primary" onClick={() => navigate('/aq-k')}>Kurztest ansehen →</button></div></article>
+        <article className="card"><span className="result-badge">Mehr Zeit und Details</span><h2>Ausführlicher Selbsttest <small>AQ-50</small></h2><p>50 Aussagen, etwa 10–15 Minuten. Sinnvoll, wenn Sie mehr Antwortbereiche betrachten oder mit der ursprünglichen Studie vergleichen möchten.</p><ul><li>Ausführlichere Selbsteinschätzung</li><li>Fünf beschreibende Bereiche</li><li>Vergleich mit der Studie von 2001</li></ul><div className="variant-actions"><button className="button button-secondary" onClick={() => navigate('/test')}>{progress ? 'Test fortsetzen →' : 'Test starten →'}</button></div></article>
       </section>
 
       <section className="info-grid" aria-label="So funktioniert der Test">

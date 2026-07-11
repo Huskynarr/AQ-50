@@ -17,7 +17,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('landing page exposes privacy, evidence and the official questionnaire', async ({ page }) => {
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Welcher AQ-Test');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Autistische Merkmale');
   await expect(page.getByText('Ihre Antworten verlassen dieses Gerät nicht.')).toBeVisible();
   await expect(page.getByRole('link', { name: /Offizieller Fragebogen/ })).toHaveAttribute('href', /AQ_Adult_German\.pdf/);
   await expect(page.getByRole('link', { name: /Originalstudie/ }).first()).toHaveAttribute('href', 'https://doi.org/10.1023/A:1005653411471');

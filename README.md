@@ -53,3 +53,5 @@ Fortschritt, Ergebnis und Theme-Einstellung werden ausschließlich im `localStor
 ## Lizenz
 
 Quellcode: [MIT](LICENSE). Rechte und Nutzungsbedingungen des Fragebogens verbleiben bei dessen Autor:innen beziehungsweise Herausgebern.
+
+Die Herkunft und Generierungsparameter visueller Assets sind in [ASSET_PROVENANCE.md](ASSET_PROVENANCE.md) dokumentiert.

@@ -13,7 +13,7 @@ const App = () => (
       <div className="app-shell">
         <header className="site-header">
           <Link className="brand" to="/" aria-label="AQ-50 Startseite"><span>AQ</span><b>50</b></Link>
-          <nav aria-label="Seiteneinstellungen und externe Quelle"><a href="https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf" target="_blank" rel="noreferrer">Originalfragebogen <span aria-hidden="true">↗</span></a><ThemeToggle /></nav>
+          <div className="header-tools"><span className="local-note"><span aria-hidden="true">✓</span> Antworten bleiben lokal</span><ThemeToggle /></div>
         </header>
         <main className="site-main">
           <Routes><Route path="/" element={<Introduction />} /><Route path="/test" element={<Test />} /><Route path="/results" element={<Results />} /><Route path="/aq-k" element={<AqKIntroduction />} /><Route path="/aq-k/test" element={<AqKTest />} /><Route path="/aq-k/results" element={<AqKResults />} /><Route path="*" element={<Introduction />} /></Routes>
