@@ -6,7 +6,7 @@
   "engines": {
     "node": ">=22"
   },
-  "homepage": "https://huskynarr.github.io/AQ-50",
+  "homepage": "https://huskynarr.is-a.dev/AQ-50/",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && tsc -p tsconfig.node.json && vite build",

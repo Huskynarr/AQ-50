@@ -1,5 +1,23 @@
 # Herkunft visueller Assets
 
+## `public/og-image-v2.png`
+
+- **Erstellt:** 11. Juli 2026
+- **Werkzeug:** integrierte OpenAI-Bildgenerierung in Codex (`image_gen`); exakte Typografie und Zuschnitt anschließend lokal mit Playwright gesetzt
+- **Modell:** Die konkrete Modellkennung wurde vom Werkzeug nicht offengelegt und wird deshalb nicht nachträglich angenommen.
+- **Referenzbilder:** keine
+- **Fremde Bildquelle:** keine; Illustration und Komposition wurden neu für dieses Projekt erzeugt.
+- **Projektdatei:** PNG, 1200 × 630 Pixel
+- **Verwendung:** Open-Graph-/Social-Media-Vorschau, unter anderem für WhatsApp und LinkedIn
+
+### Vollständiger Generierungsprompt
+
+```text
+Create a polished 1200×630 Open Graph social sharing card for a German autism self-assessment website. Warm, calm, editorial landing-page aesthetic; forest green, sage, cream, and a restrained warm coral accent; no blue. High-end accessible healthcare/wellbeing branding, welcoming and non-clinical. Place a gentle hand-drawn editorial illustration of a thoughtful diverse adult sitting comfortably with subtle abstract leaves and soft organic shapes on the RIGHT 42% of the composition. Keep the LEFT 58% clean and low-detail with a warm cream background so exact typography can be overlaid later. Do NOT render any words, letters, numbers, logos, UI controls, puzzle-piece symbols, infinity symbols, medical crosses, or diagnostic imagery. Balanced whitespace, crisp shapes, excellent contrast, no gradients, no shadows, no photographic realism. The composition must remain legible when shown as a small WhatsApp preview.
+```
+
+Die sichtbaren Texte wurden nicht vom Bildmodell erzeugt, sondern lokal gesetzt. Dadurch entsprechen Schreibweise und Aussagen exakt der Website.
+
 ## `public/images/aq-welcome-640.webp`, `aq-welcome-800.webp` und `aq-welcome-1200.webp`
 
 - **Erstellt:** 11. Juli 2026

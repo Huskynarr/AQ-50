@@ -18,13 +18,16 @@
     />
     <meta
       name="keywords"
-      content="AQ-50, AQ Test, Autismus Test, Autismus-Spektrum-Quotient, Asperger Test, Autismus Selbsttest, AQ Test deutsch, Autismus Screening, online Autismus Test"
+      content="AQ-k, AQ-50, AQ Test, Autismus-Spektrum-Quotient, Autismus Selbsttest, AQ Test deutsch, Autismus Screening Erwachsene"
     />
     <meta name="author" content="Huskynarr" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="German" />
-    <meta name="theme-color" content="#2563eb" />
-    <link rel="canonical" href="https://huskynarr.github.io/AQ-50/" />
+    <meta name="application-name" content="AQ Online-Selbsttests" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f1e5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101813" media="(prefers-color-scheme: dark)" />
+    <link rel="canonical" href="https://huskynarr.is-a.dev/AQ-50/" />
     <link
       rel="preload"
       as="image"
@@ -37,11 +40,13 @@
 
     <!-- Icons -->
     <link rel="icon" type="image/svg+xml" href="/AQ-50/favicon.svg" />
-    <link rel="apple-touch-icon" href="/AQ-50/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/AQ-50/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/AQ-50/apple-touch-icon.png" />
+    <link rel="manifest" href="/AQ-50/site.webmanifest" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://huskynarr.github.io/AQ-50/" />
+    <meta property="og:url" content="https://huskynarr.is-a.dev/AQ-50/" />
     <meta property="og:site_name" content="AQ Online-Selbsttests" />
     <meta
       property="og:title"
@@ -53,8 +58,10 @@
     />
     <meta
       property="og:image"
-      content="https://huskynarr.github.io/AQ-50/og-image.png"
+      content="https://huskynarr.is-a.dev/AQ-50/og-image-v2.png"
     />
+    <meta property="og:image:secure_url" content="https://huskynarr.is-a.dev/AQ-50/og-image-v2.png" />
+    <meta property="og:image:alt" content="Autistische Merkmale besser verstehen – AQ-k und AQ-50 Online-Selbsttests" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
@@ -72,31 +79,46 @@
     />
     <meta
       name="twitter:image"
-      content="https://huskynarr.github.io/AQ-50/og-image.png"
+      content="https://huskynarr.is-a.dev/AQ-50/og-image-v2.png"
     />
+    <meta name="twitter:image:alt" content="Autistische Merkmale besser verstehen – AQ-k und AQ-50 Online-Selbsttests" />
 
     <!-- Structured Data (Schema.org) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "AQ Online-Selbsttests",
-        "url": "https://huskynarr.github.io/AQ-50/",
-        "description": "Kostenlose Online-Selbsttests AQ-k und AQ-50 zur Einordnung autistischer Merkmale bei Erwachsenen.",
-        "applicationCategory": "HealthApplication",
-        "operatingSystem": "Web",
-        "inLanguage": "de",
-        "isAccessibleForFree": true,
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "EUR"
-        },
-        "author": {
-          "@type": "Person",
-          "name": "Huskynarr",
-          "url": "https://huskynarr.de"
-        }
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://huskynarr.is-a.dev/AQ-50/#website",
+            "url": "https://huskynarr.is-a.dev/AQ-50/",
+            "name": "AQ Online-Selbsttests",
+            "description": "Kostenlose und anonyme AQ-k- und AQ-50-Selbsttests für Erwachsene.",
+            "inLanguage": "de-DE"
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://huskynarr.is-a.dev/AQ-50/#application",
+            "name": "AQ Online-Selbsttests",
+            "url": "https://huskynarr.is-a.dev/AQ-50/",
+            "description": "Kostenlose Online-Selbsttests AQ-k und AQ-50 zur Einordnung autistischer Merkmale bei Erwachsenen. Kein Diagnoseinstrument.",
+            "applicationCategory": "HealthApplication",
+            "applicationSubCategory": "Self-assessment",
+            "operatingSystem": "Web",
+            "browserRequirements": "Requires JavaScript",
+            "inLanguage": "de-DE",
+            "isAccessibleForFree": true,
+            "audience": { "@type": "PeopleAudience", "suggestedMinAge": 16 },
+            "image": "https://huskynarr.is-a.dev/AQ-50/og-image-v2.png",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+            "author": { "@type": "Person", "name": "Huskynarr", "url": "https://huskynarr.de" },
+            "citation": [
+              "https://doi.org/10.1023/A:1005653411471",
+              "https://doi.org/10.1026/1616-3443.36.4.280"
+            ],
+            "isPartOf": { "@id": "https://huskynarr.is-a.dev/AQ-50/#website" }
+          }
+        ]
       }
     </script>
   </head>

@@ -1,0 +1,25 @@
+{
+  "name": "AQ Online-Selbsttests",
+  "short_name": "AQ Selbsttests",
+  "description": "Kostenlose, anonyme AQ-k- und AQ-50-Selbsttests für Erwachsene.",
+  "lang": "de",
+  "start_url": "/AQ-50/",
+  "scope": "/AQ-50/",
+  "display": "standalone",
+  "background_color": "#f8f1e5",
+  "theme_color": "#145b40",
+  "icons": [
+    {
+      "src": "/AQ-50/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/AQ-50/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

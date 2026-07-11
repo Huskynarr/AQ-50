@@ -2,6 +2,8 @@
 
 Eine datensparsame, barrierearme Web-Umsetzung des Autism-Spectrum Quotient für Erwachsene ab 16 Jahren. Angeboten werden die deutsche Kurzfassung AQ-k mit 33 Items und die ausführliche AQ-50-Fassung. Fragen, Antwortskalen und Auswertungsschlüssel sind je Instrument getrennt gegen die offiziellen Unterlagen geprüft.
 
+**Live:** [huskynarr.is-a.dev/AQ-50](https://huskynarr.is-a.dev/AQ-50/)
+
 > AQ-k und AQ-50 sind Selbstbeurteilungs- und Screening-Instrumente, keine Diagnosen. Ergebnisse können Autismus weder bestätigen noch ausschließen. Angaben ohne Gewähr.
 
 ## Wissenschaftliche Grundlage
