@@ -12,7 +12,7 @@ const App = () => (
       <div className="app-shell">
         <header className="site-header">
           <Link className="brand" to="/" aria-label="AQ-50 Startseite"><span>AQ</span><b>50</b></Link>
-          <nav aria-label="Hauptnavigation"><a href="/#wissenschaft">Wissenschaft</a><a href="https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf" target="_blank" rel="noreferrer">Originalfragebogen</a><ThemeToggle /></nav>
+          <nav aria-label="Seiteneinstellungen und externe Quelle"><a href="https://docs.autismresearchcentre.com/tests/AQ_Adult_German.pdf" target="_blank" rel="noreferrer">Originalfragebogen <span aria-hidden="true">↗</span></a><ThemeToggle /></nav>
         </header>
         <main className="site-main">
           <Routes><Route path="/" element={<Introduction />} /><Route path="/test" element={<Test />} /><Route path="/results" element={<Results />} /><Route path="*" element={<Introduction />} /></Routes>
