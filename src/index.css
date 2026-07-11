@@ -930,13 +930,29 @@ kbd {
     width: 100%;
   }
   .hero-visual {
-    min-height: 340px;
+    width: 180px;
+    min-height: 180px;
+    justify-self: center;
+    border-radius: 50%;
+  }
+  .hero-visual img {
+    object-position: 64% 35%;
+  }
+  .hero-visual figcaption {
+    display: none;
   }
 }
 .header-tools {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+.route-loading {
+  min-height: 45vh;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-weight: 600;
 }
 .local-note {
   display: inline-flex;

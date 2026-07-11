@@ -1,6 +1,6 @@
 # Herkunft visueller Assets
 
-## `public/images/aq-welcome-illustration.jpg`
+## `public/images/aq-welcome-640.webp`, `aq-welcome-800.webp` und `aq-welcome-1200.webp`
 
 - **Erstellt:** 11. Juli 2026
 - **Werkzeug:** integrierte OpenAI-Bildgenerierung in Codex (`image_gen`)
@@ -8,7 +8,7 @@
 - **Referenzbilder:** keine
 - **Fremde Bildquelle:** keine; das Motiv wurde neu aus dem unten dokumentierten Textprompt generiert.
 - **Originalausgabe:** PNG, 1536 × 1024 Pixel
-- **Projektdatei:** lokal auf maximal 1400 Pixel verkleinert und mit JPEG-Qualität 86 gespeichert; keine inhaltliche Bildbearbeitung.
+- **Projektdateien:** lokal als responsive WebP-Varianten mit 640, 800 beziehungsweise 1200 Pixel Breite und Qualitätsstufe 82–84 gespeichert; keine inhaltliche Bildbearbeitung.
 - **Verwendung:** dekorative Hero-Illustration der Startseite
 
 ### Vollständiger Generierungsprompt

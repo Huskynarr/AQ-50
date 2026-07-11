@@ -51,8 +51,13 @@ const Introduction = () => {
         {/* KI-generiertes Projekt-Asset; Herkunft und Prompt: /ASSET_PROVENANCE.md */}
         <figure className="hero-visual">
           <img
-            src="/AQ-50/images/aq-welcome-illustration.jpg"
+            src="/AQ-50/images/aq-welcome-1200.webp"
+            srcSet="/AQ-50/images/aq-welcome-640.webp 640w, /AQ-50/images/aq-welcome-800.webp 800w, /AQ-50/images/aq-welcome-1200.webp 1200w"
+            sizes="(max-width: 800px) calc(100vw - 28px), 36vw"
             alt="Ruhige Illustration einer Person mit Tasse und Notizbuch"
+            width="1200"
+            height="800"
+            fetchPriority="high"
           />
           <figcaption>
             <b>In Ihrem Tempo.</b>
@@ -174,9 +179,9 @@ const Introduction = () => {
           </p>
           <p className="fine-print">
             Freitag et al. untersuchten die deutsche Fassung und entwickelten
-            daraus den trennschärferen AQ-k mit 33 Aussagen. Beide Varianten sind
-            Screenings und ersetzen keine individuelle klinische Beurteilung.
-            Angaben ohne Gewähr.
+            daraus den trennschärferen AQ-k mit 33 Aussagen. Beide Varianten
+            sind Screenings und ersetzen keine individuelle klinische
+            Beurteilung. Angaben ohne Gewähr.
           </p>
         </div>
         <div className="source-list">

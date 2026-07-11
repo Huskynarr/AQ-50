@@ -1,11 +1,23 @@
+import { lazy, Suspense } from "react";
 import { HashRouter, Link, Route, Routes } from "react-router-dom";
 import Introduction from "./components/Introduction";
-import Test from "./components/Test";
-import Results from "./components/Results";
 import Footer from "./components/Footer";
 import ThemeToggle from "./components/ThemeToggle";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { AqKIntroduction, AqKResults, AqKTest } from "./components/AqK";
+
+const Test = lazy(() => import("./components/Test"));
+const Results = lazy(() => import("./components/Results"));
+const AqKIntroduction = lazy(() =>
+  import("./components/AqK").then((module) => ({
+    default: module.AqKIntroduction,
+  })),
+);
+const AqKTest = lazy(() =>
+  import("./components/AqK").then((module) => ({ default: module.AqKTest })),
+);
+const AqKResults = lazy(() =>
+  import("./components/AqK").then((module) => ({ default: module.AqKResults })),
+);
 
 const App = () => (
   <ThemeProvider>
@@ -24,15 +36,23 @@ const App = () => (
           </div>
         </header>
         <main className="site-main">
-          <Routes>
-            <Route path="/" element={<Introduction />} />
-            <Route path="/test" element={<Test />} />
-            <Route path="/results" element={<Results />} />
-            <Route path="/aq-k" element={<AqKIntroduction />} />
-            <Route path="/aq-k/test" element={<AqKTest />} />
-            <Route path="/aq-k/results" element={<AqKResults />} />
-            <Route path="*" element={<Introduction />} />
-          </Routes>
+          <Suspense
+            fallback={
+              <div className="route-loading" role="status">
+                Inhalt wird geladen …
+              </div>
+            }
+          >
+            <Routes>
+              <Route path="/" element={<Introduction />} />
+              <Route path="/test" element={<Test />} />
+              <Route path="/results" element={<Results />} />
+              <Route path="/aq-k" element={<AqKIntroduction />} />
+              <Route path="/aq-k/test" element={<AqKTest />} />
+              <Route path="/aq-k/results" element={<AqKResults />} />
+              <Route path="*" element={<Introduction />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>
